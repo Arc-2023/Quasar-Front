@@ -1,0 +1,14 @@
+version: '3'
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - /caddy/caddy-config:/config
+      - /caddy/caddy-data:/data
+      - /webs:/webs
