@@ -26,6 +26,7 @@
         <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
         <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
+        <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact></q-route-tab>
       </q-tabs>
     </q-header>
     <router-view  v-slot="{ Component }">
@@ -33,7 +34,7 @@
         <component :is="Component" />
       </transition>
     </router-view>
-    <q-footer>
+    <q-footer reveal>
       <div class="icp-registration-container">
         <div class="icp-registration-item">
           ICP 备案：
@@ -97,7 +98,6 @@ export default defineComponent({
   background-color: #ffffff;
   width: 100%;
   bottom: 0;
-  position: fixed;
   height: 17px;
   padding: 5px;
   box-shadow: 0px 0px 3px gray;
@@ -112,7 +112,7 @@ export default defineComponent({
 }
 .icp-registration-item {
   font-size: 14px;
-  color: navajowhite;
+  color: purple;
   margin-right: 10px;
   font-weight: 600;
   transition: all 0.3s ease-in-out;

@@ -1,6 +1,6 @@
 <template>
 <q-page-container>
-  <q-page class="q-pa-sm row wrap q-gutter-sm flex-center"
+  <q-page class="q-pa-sm row wrap q-gutter-sm justify-center"
           v-morph:menu:group1:200.resize="deleteM"
 
           >
@@ -8,14 +8,14 @@
       appear
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
+
     >
     <q-card style="
           width: 180px;
           height: 300px;"
           class="q-pa-sm"
           v-for="(item,index) in thingdata"
-          :key="index"
-    >
+          :key="index">
           <q-item
             class=" bg-grey-2" clickable v-ripple
           >
@@ -36,10 +36,10 @@
             </q-item-section>
             <q-item-section>
               <div class="flex justify-end" cursor-pointer>
-                <q-chip  class="text-caption" :color="getprogresscolor(item)" icon="alarm" text-color="white" dense :label="getDateDiffHours(item.startTime,item.endTime)"/>
-                <q-chip   class="text-caption " :color="getprogresscolor(item)" icon="reviews" text-color="white" dense :label="thingdata[0].tag">
+                <q-chip  class="text-caption" :color="getprogresscolor(item)" icon="alarm" text-color="white" dense :label="getDateDiffHours(item.endTime)"/>
+                <q-chip   class="text-caption " :color="getprogresscolor(item)" icon="reviews" text-color="white" dense :label="item.tag">
                 </q-chip>
-                <q-chip   class="text-caption " :color="getprogresscolor(item)" icon="speed" text-color="white" dense :label="thingdata[0].type">
+                <q-chip   class="text-caption " :color="getprogresscolor(item)" icon="speed" text-color="white" dense :label="item.type">
                 </q-chip>
                 <q-popup-proxy breakpoint="300"  cover transition-show="scale" transition-hide="scale">
                   <q-input dense filled v-model="item.tag">
@@ -82,7 +82,7 @@
           </q-item>
           <q-item class="bg-grey-2 q-my-sm column" style="height: 27%">
             <q-item-label top>
-              <q-badge class="" transparent outline color="primary">
+              <q-badge class="float-left" transparent outline color="primary">
                 Content
               </q-badge>
             </q-item-label>
@@ -200,7 +200,7 @@
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="tmpdata.startTime" mask="YYYY-MM-DD HH:mm">
+                  <q-date v-model="tmpdata.startTime" mask="YYYY-MM-DD HH:mm" today-btn>
                   </q-date>
                 </q-popup-proxy>
               </q-icon>
@@ -224,7 +224,7 @@
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="tmpdata.endTime" mask="YYYY-MM-DD HH:mm">
+                  <q-date v-model="tmpdata.endTime" mask="YYYY-MM-DD HH:mm" today-btn>
                   </q-date>
                 </q-popup-proxy>
               </q-icon>
@@ -343,8 +343,10 @@ export default defineComponent({
 
   },
   methods: {
-    getDateDiffHours (start, end) {
-      return date.getDateDiff(end, start, 'hours')
+    getDateDiffHours (end) {
+      const datee = Date.now()
+      const fmtdate = date.formatDate(datee, 'YYYY-MM-DD HH:mm')
+      return date.getDateDiff(end, fmtdate, 'hours') + 'H'
     },
     getcolor (item) {
       if (item.status === 'Running') return 'green'

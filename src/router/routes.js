@@ -24,6 +24,10 @@ const routes = [
         component: () => import('../views/Thing.vue')
       },
       {
+        path: '/alist',
+        component: () => import('../views/Alist.vue')
+      },
+      {
         path: '/:pathMatch(.*)*',
         component: () => import('../pages/ErrorNotFound.vue')
       }

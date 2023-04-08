@@ -95,6 +95,11 @@ module.exports = configure(function (/* ctx */) {
           target: 'http://119.23.243.88:8888/',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '/alist.220608.xyz': {
+          target: 'https://alist.220608.xyz/',
+          changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/alist\.220608\.xyz/, '')
         }
       }
     },
