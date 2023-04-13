@@ -121,10 +121,10 @@
       </q-scroll-area>
 
     </q-drawer>
+<!--    v-if="status"-->
     <q-card
           class="q-ma-md bg-secondary text-white absolute-center z-top"
           style="max-width: 200px; border-bottom-left-radius: 2em"
-          v-if="status"
           v-morph:modifycard:group1:200.resize="GroupModel"
         >
           <q-card-section class="text-h6">
@@ -161,9 +161,10 @@
           <q-btn flat label="是" v-close-popup @click="toggleModifyAndUpdate(true)"></q-btn>
         </q-card-actions>
       </q-card>
-    <q-card v-if="status" v-morph:deletecard:group1:240.resize="GroupModel"  class="absolute-center z-top">
+<!--    v-if="status"-->
+    <q-card  v-morph:deletecard:group1:240.resize="GroupModel"  class="absolute-center z-top">
       <q-card-section class="bg-amber ">
-        <div class="text-h6">你确定要删除吗？</div>
+        <div class="text-h6">你确定要删除{{this.notelist[this.notereadingindex].title}}吗？</div>
         <div class="text-subtitle2 text-red">这是不可恢复的</div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
@@ -247,7 +248,7 @@ export default defineComponent({
           .then(r => {
             setTimeout(() => {
               this.watchnote(this.notereadingindex - 1)
-              this.notelist.splice(this.notereadingindex, 1)
+              this.notelist.splice(this.notereadingindex+1, 1)
             }, 400)
           })
       }

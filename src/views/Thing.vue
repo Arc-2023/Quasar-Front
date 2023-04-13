@@ -94,13 +94,20 @@
                   {{item.message}}
                 </q-item-label>
               </q-item-section>
-              <q-popup-proxy breakpoint="300">
-                <q-input dense v-model="item.message" outlined class="border-radius-inherit">
-                  <template v-slot:append>
-                    <q-avatar icon="save" v-ripple @click="saveitem(item)"></q-avatar>
+              <q-popup-edit title="Content"
+               v-model="item.message"
+              v-slot="scope">
+                <q-input
+                  type="textarea"
+                  autofocus counter
+                  @keyup.enter.stop
+                  v-model="scope.value">
+                  <template v-slot:after>
+                    <q-avatar icon="save" v-ripple @click="saveitem(item,scope)"></q-avatar>
                   </template>
                 </q-input>
-              </q-popup-proxy>
+
+              </q-popup-edit>
             </q-item-section>
           </q-item>
 
@@ -399,7 +406,8 @@ export default defineComponent({
     getprogressss: function (item) {
       return (this.getprogresss(item) * 100).toString().slice(0, 4)
     },
-    saveitem (item) {
+    saveitem (item, scope) {
+      item.message = scope.value
       this.thingstore.updatething(item)
         .catch(e => {
           this.refresh()
