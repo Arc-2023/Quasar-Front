@@ -98,7 +98,7 @@ module.exports = configure(function (/* ctx */) {
         },
         '/alist.220608.xyz': {
           target: 'https://alist.220608.xyz/',
-          changeOrigin: true,
+          changeOrigin: true
           // rewrite: (path) => path.replace(/^\/alist\.220608\.xyz/, '')
         }
       }

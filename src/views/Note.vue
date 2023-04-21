@@ -162,9 +162,9 @@
         </q-card-actions>
       </q-card>
 <!--    v-if="status"-->
-    <q-card  v-morph:deletecard:group1:240.resize="GroupModel"  class="absolute-center z-top">
+    <q-card  v-morph:deletecard:group1:240.resize="GroupModel"  class="absolute-center z-top" v-if="this.GroupModel==='deletecard'">
       <q-card-section class="bg-amber ">
-        <div class="text-h6">你确定要删除{{this.notelist[this.notereadingindex].title}}吗？</div>
+        <div class="text-h6">你确定要删除{{this.notelist[this.tmp.index].title}}吗？</div>
         <div class="text-subtitle2 text-red">这是不可恢复的</div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
@@ -204,6 +204,9 @@ export default defineComponent({
       this.GroupModel1 = this.GroupModel1 === 'right-stiky-btn' ? 'entercard' : 'right-stiky-btn'
     },
     watchnote (index) {
+      if (this.notelist[index].content === null) {
+        this.notelist[index].content = 'null'
+      }
       this.notereadingindex = index
     },
     toggleModifyAndUpdate (b) {
@@ -242,14 +245,11 @@ export default defineComponent({
     },
     toggledeldialog (b) {
       if (b) {
-        const id = this.notelist[this.notereadingindex].id
+        const id = this.notelist[this.tmp.index].id
         this.GroupModel = 'menuu'
         this.notestore.delnote(id)
           .then(r => {
-            setTimeout(() => {
-              this.watchnote(this.notereadingindex - 1)
-              this.notelist.splice(this.notereadingindex+1, 1)
-            }, 400)
+            this.getAllnotes()
           })
       }
       this.GroupModel = 'menuu'

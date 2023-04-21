@@ -44,12 +44,12 @@
                 <q-popup-proxy breakpoint="300"  cover transition-show="scale" transition-hide="scale">
                   <q-input dense filled v-model="item.tag">
                     <template v-slot:append>
-                      <q-avatar icon="save" v-ripple @click="saveitem(item)"></q-avatar>
+                      <q-avatar icon="save" v-ripple @click="updateitem(item)"></q-avatar>
                     </template>
                   </q-input>
                   <q-input dense filled v-model="item.type">
                     <template v-slot:append>
-                      <q-avatar icon="save" v-ripple @click="saveitem(item)"></q-avatar>
+                      <q-avatar icon="save" v-ripple @click="updateitem(item)"></q-avatar>
                     </template>
                   </q-input>
 
@@ -74,7 +74,7 @@
               <q-popup-proxy breakpoint="300">
                 <q-input dense v-model="item.name" outlined class="border-radius-inherit">
                   <template v-slot:append>
-                    <q-avatar icon="save" v-ripple @click="saveitem(item)"></q-avatar>
+                    <q-avatar icon="save" v-ripple @click="updateitem(item)"></q-avatar>
                   </template>
                 </q-input>
               </q-popup-proxy>
@@ -128,7 +128,7 @@
                       <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                         <q-time v-model="item.endTime" mask="YYYY-MM-DD HH:mm" now-btn>
                           <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Save" color="primary" flat @click="saveitem(item)"/>
+                            <q-btn v-close-popup label="Save" color="primary" flat @click="updateitem(item)"/>
                           </div>
                         </q-time>
                       </q-popup-proxy>
@@ -408,6 +408,9 @@ export default defineComponent({
     },
     saveitem (item, scope) {
       item.message = scope.value
+      this.updateitem(item)
+    },
+    updateitem (item) {
       this.thingstore.updatething(item)
         .catch(e => {
           this.refresh()
