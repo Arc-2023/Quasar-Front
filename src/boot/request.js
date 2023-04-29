@@ -3,6 +3,7 @@ import { Notify } from 'quasar'
 import axios from 'axios'
 const service = axios.create({
   baseURL: '/',
+  withCredentials: true,
   timeout: 10000
 })
 service.interceptors.request.use(

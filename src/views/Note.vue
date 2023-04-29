@@ -13,13 +13,13 @@
         >
         </mavon-editor>
       </div>
-      <q-page-sticky position="bottom-left" :offset="[18, 18]" class="z-top">
-        <q-btn fab icon="list" color="accent" @click="toggledrawer"></q-btn>
+      <q-page-sticky position="bottom-left" :offset="[28, 18]" class="z-top">
+        <q-btn fab-mini icon="list" color="accent" @click="toggledrawer"></q-btn>
       </q-page-sticky>
       <q-page-sticky position="bottom-right"
-                     :offset="[18, 18]"
+                     :offset="[28, 18]"
                       class="z-top ">
-        <q-btn fab icon="add" color="accent" @click="toggleAdd(false)" v-morph:right-stiky-btn:group2:200.resize="GroupModel1"></q-btn>
+        <q-btn fab-mini icon="add" color="accent" @click="toggleAdd(false)" v-morph:right-stiky-btn:group2:200.resize="GroupModel1"></q-btn>
         <div></div>
       </q-page-sticky>
       <q-page-sticky position="bottom-right" :offset="[18, 18]" class="z-top">

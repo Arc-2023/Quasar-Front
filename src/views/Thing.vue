@@ -12,12 +12,14 @@
     >
     <q-card style="
           width: 180px;
-          height: 300px;"
-          class="q-pa-sm"
+          height: 300px;
+          padding: 5px;
+          "
+          class="q-pa-none"
           v-for="(item,index) in thingdata"
           :key="index">
           <q-item
-            class=" bg-grey-2" clickable v-ripple
+            class=" bg-grey-2 " v-ripple clickable
           >
             <q-item-section class="justify-sm-start">
               <div>
@@ -34,8 +36,8 @@
                 ></q-circular-progress>
               </div>
             </q-item-section>
-            <q-item-section>
-              <div class="flex justify-end" cursor-pointer>
+            <q-item-section cursor-pointer>
+              <div class="flex justify-end" >
                 <q-chip  class="text-caption" :color="getprogresscolor(item)" icon="alarm" text-color="white" dense :label="getDateDiffHours(item.endTime)"/>
                 <q-chip   class="text-caption " :color="getprogresscolor(item)" icon="reviews" text-color="white" dense :label="item.tag">
                 </q-chip>
@@ -57,7 +59,7 @@
               </div>
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple class=" q-my-sm q-pa-none cursor-pointer" style="">
+          <q-item v-ripple class=" q-my-sm q-pa-none">
             <q-item-section class="q-ma-none">
               <q-field filled label="name" dense stack-label>
                 <template v-slot:control>
@@ -80,7 +82,7 @@
               </q-popup-proxy>
             </q-item-section>
           </q-item>
-          <q-item class="bg-grey-2 q-my-sm column" style="height: 27%">
+          <q-item class="bg-grey-2 q-my-sm column " clickable v-ripple style="height: 27%">
             <q-item-label top>
               <q-badge class="float-left" transparent outline color="primary">
                 Content
@@ -353,7 +355,9 @@ export default defineComponent({
     getDateDiffHours (end) {
       const datee = Date.now()
       const fmtdate = date.formatDate(datee, 'YYYY-MM-DD HH:mm')
-      return date.getDateDiff(end, fmtdate, 'hours') + 'H'
+      const diffhours = date.getDateDiff(end, fmtdate, 'hours')
+      if (diffhours < 0) return 'Expired'
+      return diffhours > 48 ? (diffhours / 24).toFixed(1) + 'D' : diffhours + 'H'
     },
     getcolor (item) {
       if (item.status === 'Running') return 'green'
