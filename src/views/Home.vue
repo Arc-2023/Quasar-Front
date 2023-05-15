@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr fff" style="max-height: 100%">
-    <q-header elevated reveal>
+    <q-header :elevate="false" reveal>
     <q-toolbar>
       <q-btn flat round dense icon="clear" @click="backtologin"/>
       <q-toolbar-title class="justify-between">

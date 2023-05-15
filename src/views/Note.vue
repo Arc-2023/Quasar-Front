@@ -2,16 +2,25 @@
   <q-page-container>
     <q-page class="q-pa-sm">
       <div>
-        <mavon-editor
+<!--        <mavon-editor-->
+<!--          ref="md"-->
+<!--          v-if = refstate-->
+<!--          v-model="notelist[notereadingindex].content"-->
+<!--          @imgAdd="$imgAdd"-->
+<!--          @imgDel="$imgDel"-->
+<!--          @save="savacontent"-->
+<!--          v-morph:menuu:group1:250.resize="GroupModel"-->
+<!--        >-->
+<!--        </mavon-editor>-->
+        <v-md-editor
           ref="md"
           v-if = refstate
+          :disabled-menus="[]"
           v-model="notelist[notereadingindex].content"
-          @imgAdd="$imgAdd"
-          @imgDel="$imgDel"
+          @upload-image="imgAdd"
           @save="savacontent"
-          v-morph:menuu:group1:250.resize="GroupModel"
-        >
-        </mavon-editor>
+          >
+        </v-md-editor>
       </div>
       <q-page-sticky position="bottom-left" :offset="[28, 18]" class="z-top">
         <q-btn fab-mini icon="list" color="accent" @click="toggledrawer"></q-btn>
@@ -177,6 +186,7 @@ import 'md-editor-v3/lib/style.css'
 import { ref, defineComponent } from 'vue'
 import { noteStore } from 'stores/note-store'
 import { userStore } from 'stores/user-store'
+import List from '@kangc/v-md-editor/src/mixins/list'
 export default defineComponent({
   name: 'Note',
   setup () {
@@ -251,18 +261,21 @@ export default defineComponent({
     toggledrawer () {
       this.toggle = !this.toggle
     },
-    $imgAdd (pos, $file) {
-      this.uploadimage(pos, $file)
+    imgAdd (event, insertImage, files) {
+      console.log(files)
+      for (var fileone of files) {
+        const formdata = new FormData()
+        formdata.append('file', fileone)
+        this.notestore.uploadimage(formdata).then(res => {
+          insertImage({
+            url: 'https://spring.220608.xyz/getImage/' + res,
+            desc: 'img'
+          })
+        })
+      }
     },
     $imgDel (pos) {
       this.delimage(this.imgs[pos])
-    },
-    uploadimage (pos, $file) {
-      const formdata = new FormData()
-      formdata.append('file', $file)
-      this.notestore.uploadimage(formdata).then(res => {
-        this.$refs.md.$img2Url(pos, 'https://spring.220608.xyz/getImage/' + res)
-      })
     },
     delimage (imgname) {
       this.notestore.deleteimage(imgname)
