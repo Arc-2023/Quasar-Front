@@ -3,7 +3,7 @@
     <q-header elevated reveal>
     <q-toolbar>
       <q-btn flat round dense icon="clear" @click="backtologin"/>
-      <q-toolbar-title>
+      <q-toolbar-title class="justify-between">
         <div class="row wrap">
           <transition name="fade" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
             <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm">
@@ -11,6 +11,14 @@
               {{currentname}}
             </div>
           </transition>
+          <q-tabs  dense class="desktop-only absolute-center"
+          >
+            <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
+            <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
+            <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
+            <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact></q-route-tab>
+          </q-tabs>
+
           <div class="">
             <q-badge rounded color="yellow" text-color="black" :label="permission" align="top">
             </q-badge>
@@ -18,16 +26,18 @@
             <q-avatar v-ripple>
               <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
             </q-avatar>
-
         </div>
       </q-toolbar-title>
+
     </q-toolbar>
-      <q-tabs  dense>
+      <q-tabs  dense class="platform-android-only"
+        >
         <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
         <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
         <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact></q-route-tab>
       </q-tabs>
+
     </q-header>
     <router-view  v-slot="{ Component }">
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">

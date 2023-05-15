@@ -1,7 +1,7 @@
 <template>
   <q-page-container>
-    <q-page padding>
-      <div class="q-pa-none">
+    <q-page class="q-pa-sm">
+      <div>
         <mavon-editor
           ref="md"
           v-if = refstate
@@ -67,34 +67,31 @@
     <q-drawer
       side="left"
       v-model="toggle"
-      :width="200"
+      :width="150"
       show-if-above
+      class="col q-ma-none q-py-sm"
+      :overlay=false
       >
-
-      <q-scroll-area class="fixed-full" >
-        <div>
           <q-intersection
-            once
             v-for="(item,index) in notelist"
             :key="index"
-            transition="flip-right"
             @click="watchnote(index)"
+            class=" rounded-borders q-mx-sm "
+            style="
+            overflow: hidden;
+            border-radius: 10px;
+            flex: 0 0 100%
+            "
           >
-            <template v-slot:left>
-              <q-avatar icon="fingerprint"></q-avatar>
-            </template>
             <q-item
               clickable
               v-ripple
               >
               <q-item-section side>
-                <q-avatar color="blue" text-color="white" size="md">
-                  {{item.id }}
-                </q-avatar>
               </q-item-section>
               <q-item-section class="justify-sm-start">
-                <q-item-label class="text-blue-14">{{item.title}}</q-item-label>
-                <q-item-label caption>{{item.intro}}</q-item-label>
+                <q-item-label  class="text-black-14 ellipsis">{{item.title}}</q-item-label>
+                <q-item-label caption class="ellipsis">{{item.intro}}</q-item-label>
               </q-item-section>
             </q-item>
             <q-menu
@@ -116,9 +113,6 @@
             </q-menu>
 
           </q-intersection>
-        </div>
-
-      </q-scroll-area>
 
     </q-drawer>
 <!--    v-if="status"-->
