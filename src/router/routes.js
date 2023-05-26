@@ -5,6 +5,10 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/notecard',
+    component: () => import('../views/NoteCard.vue')
+  },
+  {
     path: '/',
     component: () => import('../views/Home.vue'),
     meta: {

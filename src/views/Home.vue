@@ -1,11 +1,11 @@
 <template>
   <q-layout view="hHh Lpr fff" style="max-height: 100%">
-    <q-header :elevate="false" reveal>
+    <q-header :elevate="false" reveal class="mdi-water-opacity">
     <q-toolbar>
       <q-btn flat round dense icon="clear" @click="backtologin"/>
       <q-toolbar-title class="justify-between">
         <div class="row wrap">
-          <transition name="fade" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
+          <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
             <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm">
               {{username}} /
               {{currentname}}

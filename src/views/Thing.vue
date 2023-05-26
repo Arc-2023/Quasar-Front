@@ -19,7 +19,7 @@
           v-for="(item,index) in thingdata"
           :key="index">
           <q-item
-            class=" bg-grey-2 " v-ripple clickable
+            class=" bg-grey-2 q-pa-sm" v-ripple clickable
           >
             <q-item-section class="justify-sm-start">
               <div>
@@ -59,7 +59,7 @@
               </div>
             </q-item-section>
           </q-item>
-          <q-item v-ripple class=" q-my-sm q-pa-none">
+          <q-item class="q-my-sm q-pa-none">
             <q-item-section class="q-ma-none">
               <q-field filled label="name" dense stack-label>
                 <template v-slot:control>

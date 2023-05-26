@@ -19,6 +19,7 @@
           v-model="notelist[notereadingindex].content"
           @upload-image="imgAdd"
           @save="savacontent"
+          v-morph:menuu:group1:250.resize="GroupModel"
           >
         </v-md-editor>
       </div>
