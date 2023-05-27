@@ -6,7 +6,7 @@ const routes = [
   },
   {
     path: '/notecard',
-    component: () => import('../views/NoteCard.vue')
+    component: () => import('components/NoteCard.vue')
   },
   {
     path: '/',
@@ -21,7 +21,7 @@ const routes = [
       },
       {
         path: '/note',
-        component: () => import('../views/Note.vue')
+        component: () => import('../views/NoteList.vue')
       },
       {
         path: '/thing',

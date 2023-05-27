@@ -1,5 +1,5 @@
 import { defineStore, createPinia } from 'pinia'
-import { getAllnotes, delNote, addNote, updateNote, uploadImage, deleteImage } from 'src/api/note'
+import { getAllnotes, delNote, addNote, updateNote, uploadImage, deleteImage, getNoteList } from 'src/api/note'
 import { userStore } from 'src/stores/user-store'
 import { Notify } from 'quasar'
 createPinia()
@@ -72,6 +72,15 @@ export const noteStore = defineStore('noteStore', {
         .catch(e => {
           Notify.create('图片删除失败')
           return Promise.reject()
+        })
+    },
+    async getallnotelist () {
+      return getNoteList()
+        .then(r => {
+          return r.data
+        })
+        .catch(e => {
+          Notify.create('笔记获取失败')
         })
     }
   }

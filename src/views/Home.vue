@@ -1,17 +1,17 @@
 <template>
   <q-layout view="hHh Lpr fff" style="max-height: 100%">
-    <q-header :elevate="false" reveal class="mdi-water-opacity">
-    <q-toolbar>
+    <q-header :elevated="true" class="transparent bg-blue-grey" style="">
+    <q-toolbar style="backdrop-filter: blur(10px);" >
       <q-btn flat round dense icon="clear" @click="backtologin"/>
-      <q-toolbar-title class="justify-between">
+      <q-toolbar-title class="justify-between" style="">
         <div class="row wrap">
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
-            <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm">
+            <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm text-black">
               {{username}} /
               {{currentname}}
             </div>
           </transition>
-          <q-tabs  dense class="desktop-only absolute-center"
+          <q-tabs  dense class="desktop-only absolute-center text-black"
           >
             <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
             <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
@@ -23,14 +23,14 @@
             <q-badge rounded color="yellow" text-color="black" :label="permission" align="top">
             </q-badge>
           </div>
-            <q-avatar v-ripple>
+            <q-avatar v-ripple text-black>
               <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
             </q-avatar>
         </div>
       </q-toolbar-title>
 
-    </q-toolbar>
-      <q-tabs  dense class="platform-android-only"
+    </q-toolbar >
+      <q-tabs  dense class="platform-android-only text-black"
         >
         <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
         <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>

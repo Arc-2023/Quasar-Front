@@ -40,3 +40,9 @@ export function deleteImage (data) {
     params: data
   })
 }
+export function getNoteList () {
+  return request({
+    url: '/api/getNoteList',
+    method: 'get'
+  })
+}
