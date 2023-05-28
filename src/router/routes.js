@@ -5,27 +5,37 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/notecard',
-    component: () => import('components/NoteCard.vue')
-  },
-  {
     path: '/',
     component: () => import('../views/Home.vue'),
-    meta: {
-      requireAuth: true
-    },
     children: [
       {
         path: '',
-        component: () => import('../views/Person.vue')
+        component: () => import('../views/Person.vue'),
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: '/note',
         component: () => import('../views/NoteList.vue')
       },
       {
+        path: '/note/edit/:id',
+        component: () => import('../views/NoteEdit.vue'),
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/note/preview/:id',
+        component: () => import('../views/NotePriview.vue')
+      },
+      {
         path: '/thing',
-        component: () => import('../views/Thing.vue')
+        component: () => import('../views/Thing.vue'),
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: '/alist',

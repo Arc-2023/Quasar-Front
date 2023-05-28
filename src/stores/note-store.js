@@ -1,6 +1,5 @@
 import { defineStore, createPinia } from 'pinia'
-import { getAllnotes, delNote, addNote, updateNote, uploadImage, deleteImage, getNoteList } from 'src/api/note'
-import { userStore } from 'src/stores/user-store'
+import { getAllnotes, delNote, addNote, updateNote, uploadImage, deleteImage, getNoteList, getNote } from 'src/api/note'
 import { Notify } from 'quasar'
 createPinia()
 export const noteStore = defineStore('noteStore', {
@@ -17,6 +16,17 @@ export const noteStore = defineStore('noteStore', {
         })
         .catch(e => {
           Notify.create('笔记获取失败')
+        })
+    },
+    async getnote (id) {
+      return getNote(id)
+        .then(r => {
+          Notify.create('笔记获取成功')
+          return r.data.data
+        })
+        .catch(e => {
+          Notify.create('笔记获取失败')
+          return Promise.reject()
         })
     },
     async delnote (id) {
@@ -74,13 +84,15 @@ export const noteStore = defineStore('noteStore', {
           return Promise.reject()
         })
     },
-    async getallnotelist () {
-      return getNoteList()
+    async getnotecards () {
+      return await getNoteList()
         .then(r => {
-          return r.data
+          Notify.create('获取成功')
+          return Promise.resolve(r.data.data)
         })
         .catch(e => {
           Notify.create('笔记获取失败')
+          return Promise.reject()
         })
     }
   }

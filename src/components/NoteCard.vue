@@ -1,21 +1,24 @@
 <template>
-    <q-card class="mycard row q-ma-sm rounded-borders inset-shadow-down" v-ripple style="
+    <q-card class=" mycard row q-ma-sm rounded-borders inset-shadow-down" v-ripple style="
     height: 40%;
     width: 60%;
+    min-height: 220px;
+    min-width: 440px;
     border-radius: 20px;
     box-shadow: 0 0 10px 2px #bdcee0;
     transform-style: preserve-3d;
-    transition: all .3s ease-in-out;
+    transition: all .3s;
     perspective: 100px;
     cursor: auto;
     background-image:linear-gradient(0deg,#a18cd1 0%, #fbc2eb 100%)"
+    @click="watchnote($props.noteid)"
     >
       <div class="q-pa-md" style="max-width: 70%;">
-          <div class="text-h3 text-bold title ellipsis" >
+          <div class="text-h3 text-bold title ellipsis q-pa-sm" >
             <div class="ellipsis">{{ $props.title }}</div>
           </div>
           <q-separator color="orange"
-                       style="width: 0;
+                       style="width: 10px;
                        height: 10px;
                        overflow: hidden;
                        transition: all .3s ease-in-out;
@@ -25,7 +28,7 @@
           <div class="text-subtitle2 q-ma-none q-pa-none">
             Create By {{$props.creator}}
           </div>
-        <q-card-section class="q-pt-none column" style="flex: auto;">
+        <q-card-section class="q-pa-none" style="">
           <q-item dense class="q-pa-none">
             <q-item-section class="q-pa-none">
               <q-item-label class="wrap text-h6" :lines="4" style="">
@@ -34,10 +37,9 @@
             </q-item-section>
           </q-item>
         </q-card-section>
-
       </div>
       <q-space></q-space>
-      <q-card-section style="width: 30%;" class=" column items-end ">
+      <q-card-section style="width: 30%;" class=" column items-end q-pr-sm">
         <div>
           <q-badge :floating="false" style="overflow: hidden;border-radius: 15px">
             <!--              <q-icon name="event" size="5px" style="margin-right: 3px"></q-icon>-->
@@ -60,9 +62,8 @@
           {{ $props.type }}
         </q-badge>
       </div>
-
       </q-card-section>
-      <div class="absolute-bottom-right q-ma-sm " style="background-color: #00ae9e;overflow: hidden;border-radius: 15px;max-width: 25px;max-height: 25px">
+      <div class="absolute-bottom-right q-ma-md" style="background-color: #00ae9e;overflow: hidden;border-radius: 15px;max-width: 25px;max-height: 25px">
         {{$props.views}}
       </div>
     </q-card>
@@ -73,19 +74,25 @@
       transition-hide="flip-left">
       <q-list dense style="max-width: 100px">
         <q-item dense clickable>
-          <q-item-section @click="$emit('call-delete',$props.id)">Delete</q-item-section>
+          <q-item-section @click="$emit('call-delete',$props.noteid)">Delete</q-item-section>
         </q-item>
         <q-item dense clickable>
-          <q-item-section @click="$emit('call-edit',$props.id)">Edit</q-item-section>
+          <q-item-section @click="$emit('call-edit',$props.noteid)">Edit</q-item-section>
         </q-item>
       </q-list>
     </q-menu>
-
 </template>
-
 <script>
+import { useRouter } from 'vue-router'
+
 export default {
   name: 'NoteCard',
+  setup (options) {
+    const router = useRouter()
+    return {
+      router
+    }
+  },
   emits: [
     'call-delete',
     'call-edit'
@@ -104,8 +111,8 @@ export default {
       default: 'title'
     },
     views: {
-      type: String,
-      default: 'title'
+      type: Number,
+      default: 0
     },
     createdTime: {
       type: String,
@@ -130,6 +137,10 @@ export default {
     id: {
       type: String,
       default: 'null'
+    },
+    noteid: {
+      type: String,
+      default: 'noteid'
     }
   },
   created () {
@@ -149,10 +160,13 @@ export default {
         type: 'type'
       },
       hover_dom: ''
-
     }
   },
   methods: {
+    watchnote (noteid) {
+      console.log('push to:/preview' + noteid)
+      this.router.push('/note/preview/' + noteid)
+    },
     edit (index) {
 
     },
@@ -173,4 +187,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

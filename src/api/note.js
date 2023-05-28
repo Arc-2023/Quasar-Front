@@ -42,7 +42,14 @@ export function deleteImage (data) {
 }
 export function getNoteList () {
   return request({
-    url: '/api/getNoteList',
+    url: '/api/getNoteCards',
     method: 'get'
+  })
+}
+export function getNote (id) {
+  return request({
+    url: '/api/getNote',
+    method: 'get',
+    params: { id }
   })
 }

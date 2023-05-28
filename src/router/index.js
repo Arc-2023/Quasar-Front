@@ -2,6 +2,7 @@ import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 import permission from 'boot/permission'
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -11,7 +12,7 @@ import permission from 'boot/permission'
  * with the Router instance.
  */
 
-export default route((/* { stores, ssrContext } */) => {
+export default route(({ stores, ssrContext }) => {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
@@ -19,7 +20,6 @@ export default route((/* { stores, ssrContext } */) => {
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
-
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
