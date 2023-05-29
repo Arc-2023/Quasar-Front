@@ -1,5 +1,6 @@
 <template>
-    <q-card class=" mycard row q-ma-md" v-ripple style="
+    <q-card class=" mycard q-ma-md cursor-pointer" v-ripple style="
+    display: flex;
     height: 40%;
     width: 60%;
     min-height: 150px;
@@ -11,9 +12,12 @@
     cursor: auto;"
     @click="watchnote($props.noteid)"
     >
-      <div class="q-pa-md" style="max-width: 60%;flex: 1">
-          <div class="text-h3 text-bold title q-py-sm" >
-            <div class="ellipsis">{{ $props.title }}</div>
+      <div class="q-pa-md" style="display:flex;flex-direction:column;pointer-events: none">
+          <div class="text-h4 text-bold title q-py-sm ellipsis" style="display: flex" >
+            <div class=" tti">
+              {{ $props.title }}
+            </div>
+
           </div>
           <q-separator color="orange"
                        style="width: 10px;
@@ -36,7 +40,7 @@
           </q-item>
         </q-card-section>
       </div>
-      <q-card-section style="flex: auto" class="column items-end q-pa-md">
+      <q-card-section style="flex: auto;pointer-events: none" class="column items-end q-pa-md">
         <div>
           <q-badge :floating="false" style="overflow: hidden;border-radius: 15px">
             <!--              <q-icon name="event" size="5px" style="margin-right: 3px"></q-icon>-->

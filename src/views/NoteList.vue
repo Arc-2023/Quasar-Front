@@ -307,7 +307,7 @@ export default {
         }, 0)
       })
     function addMouseOverListener (element) {
-      element.addEventListener('mouseover', (event) => {
+      element.addEventListener('mousemove', (event) => {
         const rect = element.getBoundingClientRect()
         const rotateX = (event.x - (rect.x + rect.width / 2)) / 30
         const rotateY = (event.y - (rect.y + rect.height / 2)) / 30
@@ -332,7 +332,7 @@ export default {
       element.addEventListener('mouseenter', (event) => {
         element.getElementsByClassName('sepr')[0]
           .style
-          .width = element.getElementsByClassName('title')[0].getBoundingClientRect().width + 'px'
+          .width = element.getElementsByClassName('tti')[0].getBoundingClientRect().width + 'px'
         element
           .style
           .borderRadius = '40px'
