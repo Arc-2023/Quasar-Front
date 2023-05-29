@@ -1,9 +1,9 @@
 <template>
   <q-page-container>
     <q-page class="q-pa-md">
-      <div style="display: flex;justify-items: center" class="q-ma-xl">
-          <MdPreview :editorId="id" :modelValue="text" style="width: 80%"/>
-          <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" style="max-width: 20%" />
+      <div style="display: flex;justify-items: center" class="q-ma-sm">
+          <MdPreview :editorId="id" :modelValue="text" style="overflow: hidden;border-radius: 20px"/>
+
       </div>
 
 <!--      <q-drawer-->
@@ -13,8 +13,17 @@
 <!--        style="display: flex;flex-direction: column;align-items: center">-->
 
 <!--      </q-drawer>-->
+      <q-page-sticky
+        position="bottom-right">
+        <q-btn fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
+          <q-icon name="add" ></q-icon></q-btn>
+
+      </q-page-sticky>
 
     </q-page>
+    <q-drawer side="right" v-model="drawstatus" breakpoint="800">
+      <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" style="" />
+    </q-drawer>
 
   </q-page-container>
 

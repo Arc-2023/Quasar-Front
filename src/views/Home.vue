@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr fff" style="max-height: 100%">
+  <q-layout view="hHh LpR fff" style="max-height: 100%">
     <q-header :elevated="true" class="transparent bg-blue-grey" style="">
     <q-toolbar style="backdrop-filter: blur(10px);" >
       <q-btn flat round dense icon="clear" color="black" @click="backtologin"/>
@@ -11,8 +11,7 @@
               {{currentname}}
             </div>
           </transition>
-          <q-tabs  dense class="desktop-only absolute-center text-black"
-          >
+          <q-tabs  dense class="desktop-only absolute-center text-black">
             <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
             <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
             <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
@@ -37,7 +36,6 @@
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
         <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact></q-route-tab>
       </q-tabs>
-
     </q-header>
     <router-view class="myrouter"  v-slot="{ Component }">
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
@@ -47,18 +45,9 @@
     <q-footer reveal style="background: rgba(255,255,255,0.2);backdrop-filter: blur(1px)">
       <div class="icp-registration-container">
         <div class="icp-registration-item">
-          ICP 备案：
         </div>
-        <div class="icp-registration-item" style="display: flex">
-          冀ICP备2023003852号-1
-          <div class="row text-black">
-            <div class="q-mx-sm">
-              |
-            </div>
-            <div  class="q-mr-sm cloudflare" @click="jumptocf">
-              Powered By Cloudflare
-            </div>
-          </div>
+        <div class="icp-registration-item" style="display: flex" @click="jumptocf">
+          冀ICP备2023003852号-1 | Powered By Clouldflare
         </div>
 
       </div>

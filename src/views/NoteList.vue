@@ -30,8 +30,53 @@
     </q-list>
     <q-page-sticky
       position="bottom-left">
+      <q-btn fab class="q-ma-sm bg-blue"  v-morph:fab:group:200="GroupModel" @click="this.GroupModel='card'">
+        <q-icon name="add" ></q-icon></q-btn>
+      <q-card
+        class="q-ma-md bg-secondary text-white z-top"
+        style="max-width: 200px; border-bottom-left-radius: 2em"
+        v-morph:card:group:200="GroupModel"
+      >
+        <q-card-section class="text-h6">
+          Change Note?
+        </q-card-section>
+        <q-card-section class="text-subtitle1">
+          请输入你的信息：
+        </q-card-section>
+        <q-card-section>
+          <q-form class="q-gutter-md">
+            <q-input
+              filled
+              v-model="tmp.title"
+              label="Note Title"
+              hint="Type in Title"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please type something']"
+            />
+            <q-input
+              filled
+              type="text"
+              v-model="tmp.intro"
+              label="Note Intro"
+              hint="Type in Intro"
+              lazy-rules
+              :rules="[
+          val => val !== null && val !== '' || 'Please type your intro',
+        ]"
+            />
+          </q-form>
+        </q-card-section>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="否" v-close-popup @click="this.GroupModel='fab'"></q-btn>
+          <q-btn flat label="是" v-close-popup @click="togglecardandsend"></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-page-sticky>
+    <q-page-sticky
+      position="bottom-right">
       <q-btn fab class="q-ma-sm bg-blue" @click="this.drawerstate = !this.drawerstate">
         <q-icon name="add" ></q-icon></q-btn>
+
     </q-page-sticky>
   </q-page>
   <q-drawer
@@ -106,6 +151,7 @@ import { noteStore } from 'stores/note-store'
 import { Notify } from 'quasar'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { userStore } from 'stores/user-store'
 
 export default {
   name: 'NoteList',
@@ -126,6 +172,11 @@ export default {
   },
   data () {
     return {
+      GroupModel: 'fab',
+      tmp: {
+        title: '',
+        intro: ''
+      },
       notenotshowing: [],
       menu_delete_morph: 'menu',
       drawerstate: false,
@@ -136,6 +187,12 @@ export default {
     }
   },
   methods: {
+    togglecardandsend () {
+      this.notestore.addnote(this.tmp)
+        .then(r => {
+          this.GroupModel = 'fab'
+        })
+    },
     deletenote (index) {
       this.notestore.delnote(this.notelist[index].noteid)
         .then(r => {
