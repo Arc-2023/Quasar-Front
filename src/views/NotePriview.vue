@@ -1,9 +1,9 @@
 <template>
   <q-page-container>
-    <q-page class="q-pa-xl">
-      <div style="display: flex;justify-items: center">
-          <MdPreview :editorId="id" :modelValue="text" />
-          <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" />
+    <q-page class="q-pa-md">
+      <div style="display: flex;justify-items: center" class="q-ma-xl">
+          <MdPreview :editorId="id" :modelValue="text" style="width: 80%"/>
+          <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" style="max-width: 20%" />
       </div>
 
 <!--      <q-drawer-->

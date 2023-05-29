@@ -2,39 +2,42 @@
 <q-page-container>
   <q-page class="" style="display: flex;flex-direction: column;">
     <q-list>
-      <div v-for="(item,index) in notelist" :key="index" class="flex justify-center">
-        <NoteCard
-          :id="item.id"
-          :index =index
-          :noteid="item.noteid"
-          :title="item.title"
-          :creator="item.creator"
-          :content="item.content"
-          :created-time="item.createdTime"
-          :editTime="item.editTime"
-          :tag="item.tag"
-          :type="item.type"
-          :views="item.view"
-          @call-edit="edit"
-          @call-delete="deletecard"
-
-        >
-        </NoteCard>
-      </div>
-
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show" >
+          <NoteCard
+            v-if="item.ife"
+            :id="item.id"
+            :index =index
+            :noteid="item.noteid"
+            :title="item.title"
+            :creator="item.creator"
+            :content="item.content"
+            :created-time="item.createdTime"
+            :editTime="item.editTime"
+            :tag="item.tag"
+            :type="item.type"
+            :views="item.view"
+            @call-edit="edit"
+            @call-delete="deletecard(index)"
+          >
+          </NoteCard>
+        </div>
+      </transition-group>
     </q-list>
-
     <q-page-sticky
       position="bottom-left">
-      <q-btn fab class="q-ma-sm bg-blue"><q-icon name="add" @click="this.drawerstate = !this.drawerstate"></q-icon></q-btn>
+      <q-btn fab class="q-ma-sm bg-blue" @click="this.drawerstate = !this.drawerstate">
+        <q-icon name="add" ></q-icon></q-btn>
     </q-page-sticky>
   </q-page>
-
   <q-drawer
-    show-if-above
-    :breakpoint="200"
-   side="right"
-   v-model="this.drawerstate"
+    :breakpoint="700"
+    side="right"
+    v-model="this.drawerstate"
     class="q-pa-sm align-left"
     style="display: flex;flex-direction: column;align-items: center"
   >
@@ -50,10 +53,9 @@
         <q-icon style="overflow: hidden;border-radius: 50%" name="search" v-ripple @click="this.search"></q-icon>
       </template>
     </q-input>
-    <div style="align-self: end" class="q-ma-sm flex reverse wrap">
+    <div style="align-self: start" class="q-ma-sm flex reverse wrap">
       <div v-for="(data,index) in tagSet" :key="index" @click="this.activated_tag(index)"
         >
-
         <q-badge  rounded  class="q-mr-sm text-body2 cursor-pointer " v-ripple style="transition: all .5s">
           <transition
             appear
@@ -65,9 +67,36 @@
           {{data}}
         </q-badge>
       </div>
-
     </div>
   </q-drawer>
+  <transition
+    appear
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+  >
+  <q-dialog
+    v-if="dialogstatus"
+    v-model="this.dialogstatus"
+    :position="'bottom'"
+    >
+    <q-card
+      style="width: 400px">
+      <q-card-section
+        class="text-h3">
+        删除{{this.deltitle}}?
+      </q-card-section>
+      <q-card-section
+        class="text-caption">
+        删除不可恢复
+      </q-card-section>
+      <q-card-actions>
+        <q-btn flat rounded @click="deletenote(this.deletingindex)">DEL</q-btn>
+        <q-btn flat rounded @click="this.dialogstatus = !this.dialogstatus">BACK</q-btn>
+      </q-card-actions>
+    </q-card>
+
+  </q-dialog>
+  </transition>
 </q-page-container>
 </template>
 
@@ -75,9 +104,8 @@
 import NoteCard from 'components/NoteCard.vue'
 import { noteStore } from 'stores/note-store'
 import { Notify } from 'quasar'
-import { ref } from 'vue'
-import { createRouter as $router } from 'vue-router/dist/vue-router.esm-browser'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 export default {
   name: 'NoteList',
@@ -87,44 +115,57 @@ export default {
     const tagSet = ref([])
     const tagSetActivtivated = ref([])
     const router = useRouter()
-
+    const notelist = ref([])
     return {
       notestore,
       tagSet,
+      router,
       tagSetActivtivated,
-      router
+      notelist
     }
   },
   data () {
     return {
-      notelist: [
-        {
-          title: 'titlessssssssssssss',
-          creator: 'creator',
-          editTime: 'kast',
-          createdTime: 'crtime',
-          view: 22,
-          tag: 'tag1',
-          type: 'type',
-          content: 'content',
-          id: 's1'
-        }
-      ],
+      notenotshowing: [],
       menu_delete_morph: 'menu',
-      drawerstate: true,
-      search_content: ''
+      drawerstate: false,
+      search_content: '',
+      dialogstatus: false,
+      deletingindex: 0,
+      deltitle: 'null'
     }
   },
   methods: {
+    deletenote (index) {
+      this.notestore.delnote(this.notelist[index].noteid)
+        .then(r => {
+          this.notelist[index].ife = false
+        })
+    },
     edit (noteid) {
       Notify.create('edit: ' + noteid)
       this.router.push('/note/edit/' + noteid)
     },
-    deletecard (noteid) {
-      Notify.create('delete: ' + noteid)
+    deletecard (index) {
+      Notify.create('delete: ' + index)
+      this.deletingindex = index
+      this.dialogstatus = true
+      this.deltitle = this.notelist[index].title
     },
     search () {
-
+      if (this.search_content != null && this.search_content != '') {
+        this.notelist.forEach(e => {
+          if (e.title.indexOf(this.search_content) !== -1 || e.content.indexOf(this.search_content) !== -1) {
+            e.show = true
+          } else {
+            e.show = false
+          }
+        })
+      } else {
+        this.notelist.forEach(e => {
+          e.show = true
+        })
+      }
     },
     isactivated (tag) {
       return this.tagSetActivtivated.some(function (tagchecking) {
@@ -133,9 +174,7 @@ export default {
     },
     activated_tag (index) {
       const actingtag = this.tagSet[index]
-      if (!this.tagSetActivtivated.some(function (tagchecking, index) {
-        return tagchecking === actingtag
-      })) {
+      if (!this.tagSetActivtivated.some((tagchecking, index) => { return tagchecking === actingtag })) {
         this.tagSetActivtivated.push(actingtag)
       } else {
         for (let i = 0; i < this.tagSetActivtivated.length; ++i) {
@@ -144,27 +183,66 @@ export default {
           }
         }
       }
+      if (this.tagSetActivtivated.length > 0) {
+        for (let i = 0; i < this.notelist.length; ++i) {
+          const notenow = this.notelist[i]
+          if (!this.tagSetActivtivated.some((item) => {
+            return item == notenow.tag
+          })) {
+            this.notelist[i].show = false
+          } else this.notelist[i].show = true
+        }
+      } else {
+        this.notelist.forEach(e => { e.show = true })
+      }
+
+      // const cards = document.getElementsByClassName('mycard')
+      // for (let i = 0; i < cards.length; ++i) {
+      //   console.log(cards[i])
+      //   if (!this.tagSetActivtivated.some(item => {
+      //     return item === cards[i].tag
+      //   })) {
+      //     cards[i].display = 'none'
+      //   }
+      // }
+
+      // this.notelist = this.notenotshowing !== [] ? this.notelist?.concat(this.notenotshowing) : this.notelist
+      // this.notenotshowing = []
+      //
+      // if (this.tagSetActivtivated.length > 0) {
+      //   for (let i = 0; i < this.notelist.length; ++i) {
+      //     if (!this.tagSetActivtivated.some((item, index) => {
+      //       return item === this.notelist[i].tag
+      //     })) {
+      //       this.notenotshowing = []
+      //       this.notenotshowing.push(this.notelist[i].tag)
+      //       this.notelist.splice(i, 1)
+      //     }
+      //   }
+      // }
     }
   },
   computed: {
   },
+  watch: {},
   mounted () {
     this.notestore.getnotecards()
       .then((res) => {
+        res.forEach(e => {
+          e.show = true
+          e.ife = true
+        })
         this.notelist = res
         // console.log('notelist', this.notelist)
         setTimeout(() => {
           const cards = document.getElementsByClassName('mycard')
           for (let i = 0; i < cards.length; i++) {
-            console.log(i)
             const element = cards[i]
             addMouseOverListener(element)
             addMouseLeaveListener(element)
             addMouseEnterListener(element)
           }
           const a = []
-
-          this.notelist = Array.from(this.notelist)
           this.notelist.forEach((data) => [
             a.push(data.tag)
           ])
@@ -182,7 +260,6 @@ export default {
         })
       })
     }
-
     function addMouseLeaveListener (element) {
       element.addEventListener('mouseleave', (event) => {
         element.style.transform = 'rotateX(0) rotateY(0) translate(0,0)'
@@ -194,7 +271,6 @@ export default {
           .borderRadius = '30px'
       })
     }
-
     function addMouseEnterListener (element) {
       element.addEventListener('mouseenter', (event) => {
         element.getElementsByClassName('sepr')[0]

@@ -75,7 +75,26 @@
         </div>
       </q-page>
     </q-page-container>
+    <q-footer reveal style="background: rgba(255,255,255,0.2);backdrop-filter: blur(1px)">
+      <div class="icp-registration-container">
+        <div class="icp-registration-item">
+          ICP 备案：
+        </div>
+        <div class="icp-registration-item" style="display: flex">
+          冀ICP备2023003852号-1
+          <div class="row text-black">
+            <div class="q-mx-sm">
+              |
+            </div>
+            <div  class="q-mr-sm cloudflare" @click="jumptocf">
+              Powered By Cloudflare
+            </div>
+          </div>
+        </div>
 
+      </div>
+
+    </q-footer>
   </q-layout>
 
 </template>
@@ -145,6 +164,9 @@ export default defineComponent({
       this.$refs.tabs.$el.style.overflow = null
       oldAvatar.style.transform = null
       newAvatar.style.transform = null
+    },
+    jumptocf () {
+      window.location.replace('https://www.cloudflare.com')
     }
   }
 }
@@ -183,5 +205,37 @@ q-checkbox {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+.icp-registration-container {
+  background-color: transparent;
+  width: 100%;
+  bottom: 0;
+  height: 17px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+.icp-registration-container:hover {
+  height: 30px;
+  padding: 20px;
+}
+.icp-registration-item {
+  font-size: 14px;
+  color: purple;
+  margin-right: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+.icp-registration-item:hover {
+  color: #007bff;
+}
+.cloudflare{
+  transition: all .3s ease-in-out;
+}
+.cloudflare:hover{
+  color:purple;
+  font-size: 15px;
 }
 </style>
