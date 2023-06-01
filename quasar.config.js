@@ -93,7 +93,7 @@ module.exports = configure(function (/* ctx */) {
       cors: false,
       proxy: {
         '/api': {
-          target: 'http://119.23.243.88:8888/',
+          target: 'https://spring.220608.xyz/',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         },

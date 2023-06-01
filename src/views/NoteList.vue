@@ -32,6 +32,10 @@
       position="bottom-left">
       <q-btn fab class="q-ma-sm bg-blue"  v-morph:fab:group:200="GroupModel" @click="this.GroupModel='card'">
         <q-icon name="add" ></q-icon></q-btn>
+
+    </q-page-sticky>
+    <q-page-sticky   position="bottom-left">
+
       <q-card
         class="q-ma-md bg-secondary text-white z-top"
         style="max-width: 200px; border-bottom-left-radius: 2em"
@@ -72,11 +76,11 @@
         </q-card-actions>
       </q-card>
     </q-page-sticky>
+
     <q-page-sticky
       position="bottom-right">
       <q-btn fab class="q-ma-sm bg-blue" @click="this.drawerstate = !this.drawerstate">
         <q-icon name="add" ></q-icon></q-btn>
-
     </q-page-sticky>
   </q-page>
   <q-drawer
@@ -148,7 +152,7 @@
 <script>
 import NoteCard from 'components/NoteCard.vue'
 import { noteStore } from 'stores/note-store'
-import { Notify } from 'quasar'
+import { Notify, date } from 'quasar'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { userStore } from 'stores/user-store'
@@ -289,7 +293,9 @@ export default {
           e.show = true
           e.ife = true
         })
-        this.notelist = res
+        this.notelist = res.sort((a, b) =>
+          Date.parse(b.editTime) - Date.parse(a.editTime)
+        )
         // console.log('notelist', this.notelist)
         setTimeout(() => {
           const cards = document.getElementsByClassName('mycard')

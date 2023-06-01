@@ -12,7 +12,7 @@
     cursor: auto;"
     @click="watchnote($props.noteid)"
     >
-      <div class="q-pa-md" style="display:flex;flex-direction:column;pointer-events: none">
+      <div class="q-pa-md" style="display:flex;flex-direction:column;pointer-events: none;max-width: 60%">
           <div class="text-h4 text-bold title q-py-sm ellipsis" style="display: flex" >
             <div class=" tti">
               {{ $props.title }}
@@ -33,7 +33,7 @@
         <q-card-section class="q-pa-none" style="">
           <q-item dense class="q-pa-none">
             <q-item-section class="q-pa-none">
-              <q-item-label class="wrap text-h6" :lines="4" style="">
+              <q-item-label class="wrap text-body1" :lines="4" style="">
                 {{$props.content}}
               </q-item-label>
             </q-item-section>
