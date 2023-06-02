@@ -34,7 +34,7 @@
         <q-icon name="add" ></q-icon></q-btn>
 
     </q-page-sticky>
-    <q-page-sticky   position="bottom-left">
+    <q-page-sticky   position="bottom-left" v-show="GroupModel=='card'">
 
       <q-card
         class="q-ma-md bg-secondary text-white z-top"
@@ -200,7 +200,7 @@ export default {
     deletenote (index) {
       this.notestore.delnote(this.notelist[index].noteid)
         .then(r => {
-          this.notelist[index].ife = false
+          this.notelist[index].show = false
         })
     },
     edit (noteid) {

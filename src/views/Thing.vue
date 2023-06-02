@@ -1,8 +1,7 @@
 <template>
 <q-page-container>
   <q-page class="q-pa-sm row wrap q-gutter-sm justify-center"
-          v-morph:menu:group1:200.resize="deleteM"
-
+          v-morph:menu:group1:200="deleteM"
           >
     <transition-group
       appear
@@ -165,11 +164,16 @@
     </transition-group>
 
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-right" :offset="[18,18]" >
-      <q-btn fab icon="add" color="accent" @click="ToggleNewCard" v-morph:newbtn:group2:200.resize="newmorphing"></q-btn>
-    </q-page-sticky>
+    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:200="newmorphing" >
+      <q-btn
+        fab
+        icon="add"
+        color="accent"
+        @click="ToggleNewCard"
 
-    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newcard:group2:200.resize="newmorphing">
+      ></q-btn>
+    </q-page-sticky>
+    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newcard:group2:200="newmorphing" v-show="newmorphing=='newcard'">
       <q-card class="q-pa-md">
         <q-form
           @submit="addthing"
@@ -280,7 +284,7 @@
       </q-btn>
     </q-page-sticky>
   </q-page>
-  <q-card v-morph:cards:group1:200.resize="deleteM" class="absolute-center z-top">
+  <q-card v-morph:cards:group1:200="deleteM" class="absolute-center z-top" v-show="deleteM=='cards'">
     <q-card-section class="bg-amber ">
       <div class="text-h6">你确定要删除吗？</div>
       <div class="text-subtitle2 text-red">这是不可恢复的</div>

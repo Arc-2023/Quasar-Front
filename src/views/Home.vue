@@ -31,14 +31,14 @@
     </q-toolbar >
       <q-tabs  dense class="platform-android-only text-black"
         >
-        <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact></q-route-tab>
-        <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact></q-route-tab>
-        <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact></q-route-tab>
-        <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact></q-route-tab>
+        <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact class="mdi-border-radius" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact class="mdi-border-radius" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius" style="border-radius: 10px"></q-route-tab>
       </q-tabs>
     </q-header>
     <router-view class="myrouter"  v-slot="{ Component }">
-      <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
+      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
         <component :is="Component" />
       </transition>
     </router-view>
@@ -47,7 +47,7 @@
         <div class="icp-registration-item">
         </div>
         <div class="icp-registration-item" style="display: flex" @click="jumptocf">
-          冀ICP备2023003852号-1 | Powered By Clouldflare
+          冀ICP备2023003852号-1 | Powered By Cloudflare
         </div>
 
       </div>
