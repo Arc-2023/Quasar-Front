@@ -1,14 +1,13 @@
 <template>
 <q-page-container>
-  <q-page class="q-pa-sm row wrap q-gutter-sm justify-center"
-          >
-    <div class="row justify-center q-gutter-sm">
-      <q-intersection class="q-pa-none q-ma-sm"
+  <q-page class="q-pa-sm row wrap q-gutter-sm justify-center">
+    <div class="flex justify-center">
+      <q-intersection class="q-ma-sm"
                       v-for="(item,index) in thingdata"
                       :key="index"
-                      transition="fade"
-                      >
-          <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"></ThingCard>
+                      once
+                      transition="fade">
+          <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
       </q-intersection>
 
     </div>
