@@ -1,5 +1,5 @@
 <template>
-    <q-card class=" mycard q-ma-md cursor-pointer" v-ripple style="
+    <q-card class=" mycard q-ma-md cursor-pointer " style="
     display: flex;
     height: 40%;
     width: 60%;
@@ -8,8 +8,7 @@
     border-radius: 20px;
     transform-style: preserve-3d;
     transition: all .3s;
-    perspective: 100px;
-    cursor: auto;"
+    perspective: 100px;"
     @click="watchnote($props.noteid)"
     >
       <div class="q-pa-md" style="display:flex;flex-direction:column;pointer-events: none;max-width: 60%">
@@ -165,8 +164,9 @@ export default {
   },
   methods: {
     watchnote (noteid) {
-      console.log('push to:/preview' + noteid)
-      this.router.push('/note/preview/' + noteid)
+      setTimeout(() => {
+        this.router.push('/note/preview/' + noteid)
+      }, 200)
     },
     edit (index) {
 

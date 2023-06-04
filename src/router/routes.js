@@ -5,6 +5,10 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/card',
+    component: () => import('../components/ThingCard.vue')
+  },
+  {
     path: '/',
     component: () => import('../views/Home.vue'),
     children: [

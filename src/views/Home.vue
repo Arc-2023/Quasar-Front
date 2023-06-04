@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fff" style="max-height: 100%">
-    <q-header :elevated="true" class="transparent bg-blue-grey" style="">
+    <q-header :elevated="true" class="transparent rounded-borders" style="">
     <q-toolbar style="backdrop-filter: blur(10px);" >
       <q-btn flat round dense icon="clear" color="black" @click="backtologin"/>
       <q-toolbar-title class="justify-between" style="">
