@@ -29,7 +29,6 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
       'pinia',
-      'markdown',
       'md-editor'
     ],
 
@@ -90,7 +89,7 @@ module.exports = configure(function (/* ctx */) {
       open: true, // opens browser window automatically，
       // ws: true,
       port: 9001,
-      cors: false,
+      cors: true,
       proxy: {
         '/api': {
           target: 'https://spring.220608.xyz/',

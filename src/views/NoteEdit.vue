@@ -178,20 +178,18 @@ export default defineComponent({
     toggledrawer () {
       this.toggle = !this.toggle
     },
-    imgAdd (files, callback) {
+    async imgAdd (files, callback) {
       console.log(files)
-      const arr = []
+      let arr = []
       for (const fileone of files) {
         const formdata = new FormData()
         formdata.append('file', fileone)
-        this.notestore.uploadimage(formdata).then(res => {
+        await this.notestore.uploadimage(formdata).then(res => {
           arr.push('https://spring.220608.xyz/getImage/' + res)
           console.log(res)
+          callback(arr)
         })
       }
-      setTimeout(function () {
-        callback(arr)
-      }, 1000)
     },
     $imgDel (pos) {
       this.delimage(this.imgs[pos])

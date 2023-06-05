@@ -4,7 +4,7 @@ import axios from 'axios'
 const service = axios.create({
   baseURL: '/',
   withCredentials: true,
-  timeout: 10000
+  timeout: 15000
 })
 service.interceptors.request.use(
   (config) => {
