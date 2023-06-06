@@ -30,19 +30,19 @@
     </q-list>
     <q-page-sticky
       position="bottom-left">
-      <q-btn v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:200="GroupModel" @click="this.GroupModel='card'">
-        <q-icon name="add" ></q-icon></q-btn>
+      <q-btn v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
+        <q-icon name="add" ></q-icon>New</q-btn>
 
     </q-page-sticky>
-    <q-page-sticky   position="bottom-left" v-show="GroupModel=='card'">
+    <q-page-sticky   position="bottom-left" v-show="GroupModel==='card'">
 
       <q-card
-        class="q-ma-md bg-secondary text-white z-top"
-        style="max-width: 200px; border-bottom-left-radius: 2em"
-        v-morph:card:group:200="GroupModel"
+        class="q-ma-md z-top mdi-border-radius bg-transparent"
+        style="max-width: 200px;border-radius: 10px;backdrop-filter: blur(10px)"
+        v-morph:card:group:300.resize="GroupModel"
       >
         <q-card-section class="text-h6">
-          Change Note?
+          What's Your Point?
         </q-card-section>
         <q-card-section class="text-subtitle1">
           请输入你的信息：
@@ -78,46 +78,60 @@
     </q-page-sticky>
 
     <q-page-sticky
-      position="bottom-right">
-      <q-btn fab class="q-ma-sm bg-blue" @click="this.drawerstate = !this.drawerstate">
-        <q-icon name="add" ></q-icon></q-btn>
+      position="bottom-right" >
+      <q-btn fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
+        <q-icon name="list"></q-icon></q-btn>
+    </q-page-sticky>
+    <q-page-sticky
+      position="bottom-right"  v-show="rightcardmodel=='rightcard'">
+      <q-card v-morph:rightcard:group1:300.resize="rightcardmodel" class="q-pa-sm mdi-border-radius" style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent">
+        <q-input
+          rounded
+          outlined
+          dense
+          v-model="search_content"
+          label="Type to Search"
+          class="self-stretch q-ma-sm"
+        >
+          <template v-slot:append>
+            <q-icon style="overflow: hidden;border-radius: 50%" name="search" v-ripple @click="this.search"></q-icon>
+          </template>
+        </q-input>
+        <div style="align-self: start" class="q-ma-sm flex reverse wrap">
+          <div v-for="(data,index) in tagSet" :key="index" @click="this.activated_tag(index)"
+          >
+            <q-chip :outline="isactivated(data)" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+              <div>
+                <transition
+                  appear
+                  enter-active-class="animated fadeIn"
+                  leave-active-class="animated fadeOut"
+                >
+                  <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
+
+                </transition>
+                {{data}}
+              </div>
+            </q-chip>
+          </div>
+        </div>
+        <q-card-actions>
+          <q-btn color="white" flat text-color="black" @click="this.rightcardmodel='fab'">BACK</q-btn>
+        </q-card-actions>
+
+      </q-card>
+
     </q-page-sticky>
   </q-page>
-  <q-drawer
-    :breakpoint="700"
-    side="right"
-    v-model="this.drawerstate"
-    class="q-pa-sm align-left"
-    style="display: flex;flex-direction: column;align-items: center"
-  >
-    <q-input
-      rounded
-      outlined
-      dense
-      v-model="search_content"
-      label="Type to Search"
-      class="self-stretch q-ma-sm"
-      >
-      <template v-slot:append>
-        <q-icon style="overflow: hidden;border-radius: 50%" name="search" v-ripple @click="this.search"></q-icon>
-      </template>
-    </q-input>
-    <div style="align-self: start" class="q-ma-sm flex reverse wrap">
-      <div v-for="(data,index) in tagSet" :key="index" @click="this.activated_tag(index)"
-        >
-        <q-badge  rounded  class="q-mr-sm text-body2 cursor-pointer " v-ripple style="transition: all .5s">
-          <transition
-            appear
-            enter-active-class="animated fadeIn"
-            leave-active-class="animated fadeOut"
-          >
-          <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
-          </transition>
-          {{data}}
-        </q-badge>
-      </div>
-    </div>
-  </q-drawer>
+<!--  <q-drawer-->
+<!--    :breakpoint="700"-->
+<!--    side="right"-->
+<!--    v-model="this.drawerstate"-->
+<!--    class="q-pa-sm align-left"-->
+<!--    style="display: flex;flex-direction: column;align-items: center"-->
+<!--  >-->
+<!--   -->
+<!--  </q-drawer>-->
   <transition
     appear
     enter-active-class="animated fadeIn"
@@ -177,6 +191,7 @@ export default {
   data () {
     return {
       GroupModel: 'fab',
+      rightcardmodel: 'fab',
       tmp: {
         title: '',
         intro: ''
@@ -204,7 +219,6 @@ export default {
         })
     },
     edit (noteid) {
-      Notify.create('edit: ' + noteid)
       this.router.push('/note/edit/' + noteid)
     },
     deletecard (index) {

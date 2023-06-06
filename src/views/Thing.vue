@@ -12,7 +12,7 @@
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:200="newmorphing" >
+    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:300.resize="newmorphing" >
       <q-btn
         fab
         icon="add"
@@ -21,8 +21,14 @@
 
       ></q-btn>
     </q-page-sticky>
-    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newcard:group2:200="newmorphing" v-show="newmorphing=='newcard'">
-      <q-card class="q-pa-md">
+    <q-page-sticky
+
+      position="bottom-right"
+      :offset="[18,18]"
+      v-morph:newcard:group2:300.resize="newmorphing"
+      v-show="newmorphing=='newcard'">
+      <q-card  class=" q-pa-sm bg-transparent"
+              style="backdrop-filter: blur(10px)">
         <q-form
           @submit="addthing"
           @reset="onReset"
@@ -139,10 +145,8 @@
         <div class="text-subtitle2 text-red">这是不可恢复的</div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
-        <q-btn  flat label="否" v-close-popup @click="toggledeldialog()"></q-btn>
-        <q-card-actions align="left" class="text-primary">
+        <q-btn  flat label="否" v-close-popup @click="()=>deleteM=false"></q-btn>
         <q-btn flat label="是" v-close-popup @click="deleteitem()"></q-btn>
-        </q-card-actions>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -211,10 +215,7 @@ export default defineComponent({
       this.thingstore.delthing(this.thingdata[this.deletingindex].id)
         .then(r => {
           this.thingdata.splice(this.deletingindex, 1)
-          this.toggledeldialog()
-        })
-        .catch(e => {
-          this.toggledeldialog()
+          this.deleteM = false
         })
     },
     stopfun (item, index) {

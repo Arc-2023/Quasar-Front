@@ -96,45 +96,45 @@
 
     </q-drawer>
 <!--    v-if="status"-->
-    <q-card
-          class="q-ma-md bg-secondary text-white absolute-center z-top"
-          style="max-width: 200px; border-bottom-left-radius: 2em"
-          v-morph:modifycard:group1:200.resize="GroupModel"
-        >
-          <q-card-section class="text-h6">
-            Change Note?
-          </q-card-section>
-          <q-card-section class="text-subtitle1">
-            请输入你的信息：
-          </q-card-section>
-          <q-card-section>
-            <q-form class="q-gutter-md">
-              <q-input
-                filled
-                v-model="this.note.title"
-                label="Note Title"
-                hint="Type in Title"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Please type something']"
-              />
-              <q-input
-                filled
-                type="text"
-                v-model="this.note.intro"
-                label="Note Intro"
-                hint="Type in Intro"
-                lazy-rules
-                :rules="[
-          val => val !== null && val !== '' || 'Please type your intro',
-        ]"
-              />
-            </q-form>
-          </q-card-section>
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="否" v-close-popup @click="toggleModifyAndUpdate(false)"></q-btn>
-          <q-btn flat label="是" v-close-popup @click="toggleModifyAndUpdate(true)"></q-btn>
-        </q-card-actions>
-      </q-card>
+<!--    <q-card-->
+<!--          class="q-ma-md bg-secondary text-white absolute-center z-top"-->
+<!--          style="max-width: 200px; border-bottom-left-radius: 2em"-->
+<!--          v-morph:modifycard:group1:200.resize="GroupModel"-->
+<!--        >-->
+<!--          <q-card-section class="text-h6">-->
+<!--            Change Note?-->
+<!--          </q-card-section>-->
+<!--          <q-card-section class="text-subtitle1">-->
+<!--            请输入你的信息：-->
+<!--          </q-card-section>-->
+<!--          <q-card-section>-->
+<!--            <q-form class="q-gutter-md">-->
+<!--              <q-input-->
+<!--                filled-->
+<!--                v-model="this.note.title"-->
+<!--                label="Note Title"-->
+<!--                hint="Type in Title"-->
+<!--                lazy-rules-->
+<!--                :rules="[ val => val && val.length > 0 || 'Please type something']"-->
+<!--              />-->
+<!--              <q-input-->
+<!--                filled-->
+<!--                type="text"-->
+<!--                v-model="this.note.intro"-->
+<!--                label="Note Intro"-->
+<!--                hint="Type in Intro"-->
+<!--                lazy-rules-->
+<!--                :rules="[-->
+<!--          val => val !== null && val !== '' || 'Please type your intro',-->
+<!--        ]"-->
+<!--              />-->
+<!--            </q-form>-->
+<!--          </q-card-section>-->
+<!--        <q-card-actions align="right" class="text-primary">-->
+<!--          <q-btn flat label="否" v-close-popup @click="toggleModifyAndUpdate(false)"></q-btn>-->
+<!--          <q-btn flat label="是" v-close-popup @click="toggleModifyAndUpdate(true)"></q-btn>-->
+<!--        </q-card-actions>-->
+<!--      </q-card>-->
 <!--&lt;!&ndash;    v-if="status"&ndash;&gt;-->
 <!--    <q-card  v-morph:deletecard:group1:240.resize="GroupModel"  class="absolute-center z-top" v-if="this.GroupModel==='deletecard'">-->
 <!--      <q-card-section class="bg-amber ">-->
@@ -180,16 +180,16 @@ export default defineComponent({
     },
     async imgAdd (files, callback) {
       console.log(files)
-      let arr = []
+      const arr = []
       for (const fileone of files) {
         const formdata = new FormData()
         formdata.append('file', fileone)
         await this.notestore.uploadimage(formdata).then(res => {
           arr.push('https://spring.220608.xyz/getImage/' + res)
           console.log(res)
-          callback(arr)
         })
       }
+      callback(arr)
     },
     $imgDel (pos) {
       this.delimage(this.imgs[pos])

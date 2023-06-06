@@ -12,11 +12,10 @@
     @click="watchnote($props.noteid)"
     >
       <div class="q-pa-md" style="display:flex;flex-direction:column;pointer-events: none;max-width: 60%">
-          <div class="text-h4 text-bold title q-py-sm ellipsis" style="display: flex" >
-            <div class=" tti">
+          <div class="text-h5 text-bold q-py-sm ellipsis" style="max-width: 100%;display: flex" >
+            <div style="max-width: 100%" class="ellipsis tti">
               {{ $props.title }}
-            </div>
-
+          </div>
           </div>
           <q-separator color="orange"
                        style="width: 10px;

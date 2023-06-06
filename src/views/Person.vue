@@ -16,7 +16,7 @@
             </template>
           </q-field>
         </q-item>
-        <q-item v-morph:menu:group1:200.resize="alertModel"  @click="togglealertdialog" clickable>
+        <q-item v-morph:menu:group1:300.resize="alertModel"  @click="togglealertdialog" clickable>
           <q-field dense rounded outlined label="alertToken"  stack-label length="500px" filled style="width: 100%">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">{{ alertToken }}</div>
@@ -26,7 +26,7 @@
 
       </q-list>
       <q-stepper
-        v-morph:step:group1:200.resize="alertModel"
+        v-morph:step:group1:300.resize="alertModel"
         active-color="purple"
         ref="stepper"
         animated

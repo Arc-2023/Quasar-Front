@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       note: '',
-      drawstatus: true
+      drawstatus: false
     }
   },
   methods: {
