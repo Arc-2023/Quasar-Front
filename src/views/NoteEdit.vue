@@ -19,8 +19,32 @@
           style="height: 88vh"
           >
         </MdEditor>
-      <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top">
-        <q-btn fab-mini icon="list" color="accent" @click="toggledrawer"></q-btn>
+      <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top"  v-morph:fab:group:300="morph1">
+        <q-btn fab-mini icon="list" color="accent" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
+      </q-page-sticky>
+
+      <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top" v-show="morph1=='card'">
+        <q-card class="q-pa-sm bg-transparent" style="backdrop-filter: blur(10px)"   v-morph:card:group:300.resize="morph1" >
+          <q-input rounded standout bottom-slots v-model="note.title" label="Title" counter>
+            <template v-slot:append>
+              <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
+            </template>
+          </q-input>
+          <q-input rounded standout bottom-slots v-model="note.tag" label="Tag" counter>
+            <template v-slot:append>
+              <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
+            </template>
+          </q-input>
+          <q-input rounded standout bottom-slots v-model="note.type" label="Type" counter>
+            <template v-slot:append>
+              <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
+            </template>
+          </q-input>
+          <q-card-actions>
+            <q-btn @click="savacontent">保存</q-btn>
+            <q-btn @click="morph1='fab'">返回</q-btn>
+          </q-card-actions>
+        </q-card>
       </q-page-sticky>
 <!--      <q-page-sticky position="bottom-right"-->
 <!--                     :offset="[28, 18]"-->
@@ -70,31 +94,16 @@
 <!--      </q-card>-->
 <!--      </q-page-sticky>-->
     </q-page>
-    <q-drawer
-      side="right"
-      v-model="toggle"
-      :width="200"
-      show-if-above
-      class="col q-ma-none q-py-sm"
-      :overlay=false
-      >
-            <q-input rounded standout bottom-slots v-model="note.title" label="Title" counter>
-              <template v-slot:append>
-                <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
-              </template>
-            </q-input>
-      <q-input rounded standout bottom-slots v-model="note.tag" label="Tag" counter>
-        <template v-slot:append>
-          <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
-        </template>
-      </q-input>
-      <q-input rounded standout bottom-slots v-model="note.type" label="Type" counter>
-        <template v-slot:append>
-          <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
-        </template>
-      </q-input>
+<!--    <q-drawer-->
+<!--      side="right"-->
+<!--      v-model="toggle"-->
+<!--      :width="200"-->
+<!--      show-if-above-->
+<!--      class="col q-ma-none q-py-sm"-->
+<!--      :overlay=false-->
+<!--      >-->
 
-    </q-drawer>
+<!--    </q-drawer>-->
 <!--    v-if="status"-->
 <!--    <q-card-->
 <!--          class="q-ma-md bg-secondary text-white absolute-center z-top"-->
@@ -175,9 +184,6 @@ export default defineComponent({
     }
   },
   methods: {
-    toggledrawer () {
-      this.toggle = !this.toggle
-    },
     async imgAdd (files, callback) {
       console.log(files)
       const arr = []
@@ -211,6 +217,7 @@ export default defineComponent({
   },
   data () {
     return {
+      morph1:'fab',
       changelising: 0,
       notereadingindex: 0,
       refstate: false,
