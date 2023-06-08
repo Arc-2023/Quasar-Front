@@ -12,7 +12,7 @@
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:300.resize="newmorphing" >
+    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:300.hideFromClone="newmorphing" >
       <q-btn
         fab
         icon="add"
@@ -25,7 +25,7 @@
 
       position="bottom-right"
       :offset="[18,18]"
-      v-morph:newcard:group2:300.resize="newmorphing"
+      v-morph:newcard:group2:300.hideFromClone="newmorphing"
       v-show="newmorphing=='newcard'">
       <q-card  class=" q-pa-sm bg-transparent"
               style="backdrop-filter: blur(10px)">

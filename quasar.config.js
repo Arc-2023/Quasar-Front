@@ -122,7 +122,10 @@ module.exports = configure(function (/* ctx */) {
         'Notify'
       ],
       config: {
-        notify: {}
+        notify: {
+
+        },
+        dark: false
       }
     },
 

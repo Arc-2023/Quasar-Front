@@ -30,7 +30,7 @@
     </q-list>
     <q-page-sticky
       position="bottom-left">
-      <q-btn v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
+      <q-btn flat v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
         <q-icon name="add" ></q-icon>New</q-btn>
 
     </q-page-sticky>
@@ -79,7 +79,7 @@
 
     <q-page-sticky
       position="bottom-right" >
-      <q-btn fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
+      <q-btn flat fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
         <q-icon name="list"></q-icon></q-btn>
     </q-page-sticky>
     <q-page-sticky

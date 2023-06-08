@@ -15,7 +15,7 @@
 <!--      </q-drawer>-->
       <q-page-sticky
         position="bottom-right">
-        <q-btn fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
+        <q-btn flat fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
           <q-icon name="add" ></q-icon></q-btn>
 
       </q-page-sticky>

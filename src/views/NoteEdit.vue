@@ -20,7 +20,7 @@
           >
         </MdEditor>
       <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top"  v-morph:fab:group:300="morph1">
-        <q-btn fab-mini icon="list" color="accent" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
+        <q-btn flat fab icon="list" color="accent" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
       </q-page-sticky>
 
       <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top" v-show="morph1=='card'">
