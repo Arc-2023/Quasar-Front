@@ -2,24 +2,27 @@
 <q-page-container>
   <q-page class="q-pa-sm row wrap q-gutter-sm justify-center">
     <div class="flex justify-center">
-      <q-intersection class="q-ma-sm"
+      <transition class="q-ma-sm"
                       v-for="(item,index) in thingdata"
+                      v-show="item.show && is_searched(item)"
                       :key="index"
-                      once
-                      transition="fade">
+                        appear
+                        enter-active-class="animated fadeIn"
+                        leave-active-class="animated fadeOut"
+                      >
           <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
-      </q-intersection>
+      </transition>
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-right" :offset="[18,18]" v-morph:newbtn:group2:300.hideFromClone="newmorphing" >
+    <q-page-sticky position="bottom-left" :offset="[18,18]" v-morph:newbtn:group2:300.hideFromClone="newmorphing" >
       <q-btn
         fab
         icon="add"
-        color="accent"
+        color="primary"
         @click="ToggleNewCard"
 
-      ></q-btn>
+      >NEW</q-btn>
     </q-page-sticky>
     <q-page-sticky
 
@@ -137,6 +140,52 @@
         <i class="fa-sharp fa-solid fa-rotate-right"></i>
       </q-btn>
     </q-page-sticky>
+
+    <q-page-sticky
+      position="bottom-right" >
+      <q-btn flat fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
+        <q-icon name="list"></q-icon></q-btn>
+    </q-page-sticky>
+    <q-page-sticky
+      position="bottom-right"  v-show="rightcardmodel=='rightcard'">
+      <q-card v-morph:rightcard:group1:300.resize="rightcardmodel"
+              class="q-pa-sm mdi-border-radius"
+              style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
+        <q-input
+          rounded
+          outlined
+          dense
+          v-model="search_content"
+          label="Type to Search"
+          class="self-stretch q-ma-sm"
+        >
+          <template v-slot:append>
+            <q-icon style="overflow: hidden;border-radius: 50%" name="close" v-ripple @click="this.search_content = ''"></q-icon>
+          </template>
+        </q-input>
+        <div style="align-self: start" class="q-ma-sm flex reverse wrap">
+          <div v-for="(data,index) in tags" :key="index" @click="this.activated_tag(index)"
+          >
+            <q-chip :outline="isactivated(data)" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+              <div>
+                <transition
+                  appear
+                  enter-active-class="animated fadeIn"
+                  leave-active-class="animated fadeOut"
+                >
+                  <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
+
+                </transition>
+                {{data}}
+              </div>
+            </q-chip>
+          </div>
+        </div>
+        <q-card-actions>
+          <q-btn color="white" flat text-color="black" @click="this.rightcardmodel='fab'">BACK</q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-page-sticky>
   </q-page>
   <q-dialog v-model="deleteM" >
     <q-card class="absolute-center z-top">
@@ -177,17 +226,19 @@ export default defineComponent({
       editormorphing: 'content',
       newmorphing: 'newbtn',
       morphingstate: false,
+      rightcardmodel: 'fab',
+      search_content: '',
       // thingdata: [
-      //   {
-      //     id: 1,
-      //     name: 'name',
-      //     startTime: '2023-04-04 12:44',
-      //     endTime: '2023-04-06 12:44',
-      //     tag: 'math',
-      //     type: 5,
-      //     message: 'content',
-      //     status: 'Pause'
-      //   }
+      //   // {
+      //   //   id: 1,
+      //   //   name: 'name',
+      //   //   startTime: '2023-04-04 12:44',
+      //   //   endTime: '2023-04-06 12:44',
+      //   //   tag: 'math',
+      //   //   type: 5,
+      //   //   message: 'content',
+      //   //   status: 'Pause'
+      //   // }
       // ],
       tmpdata: {
         id: 1,
@@ -200,13 +251,66 @@ export default defineComponent({
       },
       index: 0,
       deleteM: false,
-      deletingindex: 0
+      deletingindex: 0,
+      tags: [],
+      active_tag: []
     }
   },
   computed: {
 
   },
   methods: {
+    sortby_endtime () {
+      this.thingdata.sort((a, b) => {
+        return Date.parse(a.endTime) < Date.parse(a.endTime)
+      })
+    },
+    sortby_resttime () {
+
+    },
+    is_searched (item) {
+      if (this.search_content == '') return true
+      else {
+        if (item.name.includes(this.search_content) || item.message.includes(this.search_content)) return true; else return false
+      }
+    },
+    filtdata () {
+      if (this.active_tag.length == 0) {
+        this.thingdata.forEach(e => { e.show = true })
+      } else {
+        this.thingdata.forEach(ee => {
+          if (this.active_tag.some(e => ee.tag == e)) { ee.show = true } else ee.show = false
+        })
+      }
+    },
+    activated_tag (index) {
+      if (!this.active_tag.some((e, indexx) => {
+        if (e === this.tags[index]) {
+          this.active_tag.splice(indexx, 1)
+          return true
+        }
+        return false
+      })) {
+        this.active_tag.push(this.tags[index])
+      }
+    },
+    isactivated (data) {
+      console.log(this.active_tag)
+      if (this.active_tag.some((e) => { return e === data })) {
+        this.filtdata()
+        return true
+      } else {
+        this.filtdata()
+        return false
+      }
+    },
+    // search () {
+    //   this.thingdata.forEach(e => {
+    //     if (!e.name.includes(this.search_content) &&
+    //       !e.message.includes(this.search_content) &&
+    //       this.search_content != '') { e.active = false }
+    //   })
+    // },
     deletefun (index) {
       this.toggledeldialog()
       this.deletingindex = index
@@ -214,7 +318,8 @@ export default defineComponent({
     deleteitem () {
       this.thingstore.delthing(this.thingdata[this.deletingindex].id)
         .then(r => {
-          this.thingdata.splice(this.deletingindex, 1)
+          this.thingdata.at(this.deletingindex).show = false
+          console.log('@', this.deletingindex)
           this.deleteM = false
         })
     },
@@ -240,10 +345,7 @@ export default defineComponent({
       this.thingstore.addthing(this.tmpdata)
         .then(r => {
           this.ToggleNewCard()
-          this.thingstore.refreshThings()
-            .then(r => {
-              this.thingdata = r
-            })
+          this.refresh(false)
         })
     },
     onReset () {
@@ -251,13 +353,20 @@ export default defineComponent({
         this.tmpdata[key] = ''
       }
     },
-    refresh () {
+    refresh (status) {
       this.thingstore.refreshThings()
         .then(rs => {
-          this.thingdata = Array.from(rs)
-          console.log(this.thingdata)
+          rs.forEach((e) => {
+            // console.log(e)
+            e.show = true
+            e.active = true
+          })
+          this.thingdata = rs
+          this.thingdata.forEach(e => {
+            if (!this.tags.some((ee, index) => ee == e.tag)) this.tags.push(e.tag)
+          })
         })
-      this.thingstore.initstart()
+      if (status) this.thingstore.initstart()
     }
   },
   mounted () {

@@ -11,7 +11,6 @@ export const noteStore = defineStore('noteStore', {
     async getallnotes () {
       return await getAllnotes()
         .then((res) => {
-          Notify.create('笔记获取成功')
           return res.data.data
         })
         .catch(e => {
@@ -21,7 +20,6 @@ export const noteStore = defineStore('noteStore', {
     async getnote (id) {
       return getNote(id)
         .then(r => {
-          Notify.create('笔记获取成功')
           return r.data.data
         })
         .catch(e => {
@@ -65,7 +63,6 @@ export const noteStore = defineStore('noteStore', {
     async uploadimage (formdata) {
       return await uploadImage(formdata)
         .then(r => {
-          Notify.create('图片已上传')
           return r.data.data
         })
         .catch(e => {
@@ -87,7 +84,6 @@ export const noteStore = defineStore('noteStore', {
     async getnotecards () {
       return await getNoteList()
         .then(r => {
-          Notify.create('获取成功')
           return Promise.resolve(r.data.data)
         })
         .catch(e => {

@@ -48,9 +48,9 @@ export const userStore = defineStore('userStore', {
           localStorage.setItem('permission', res.data.data.permission)
           localStorage.setItem('userdata', res.data.data.userdata)
           localStorage.setItem('alertToken', res.data.data.alertToken)
-          Notify.create({
-            message: res.data.msg
-          })
+          // Notify.create({
+          //   message: res.data.msg
+          // })
           return true
         }).catch(e => {
           return Promise.reject(false)

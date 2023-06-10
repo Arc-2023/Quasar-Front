@@ -15,7 +15,6 @@ export const thingStore = defineStore(
         const username = userStore().getUsername
         return refreshThings({ username })
           .then(r => {
-            Notify.create('事务获取成功')
             return r.data.data
           })
           .catch(e => {
@@ -26,7 +25,6 @@ export const thingStore = defineStore(
       async addthing (data) {
         return await addThing(data)
           .then(r => {
-            Notify.create('事务添加成功')
             return true
           })
           .catch(e => {

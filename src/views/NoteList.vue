@@ -29,12 +29,13 @@
       </transition-group>
     </q-list>
     <q-page-sticky
-      position="bottom-left">
+      position="bottom-left"
+      :offset="[20,20]">
       <q-btn flat v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
         <q-icon name="add" ></q-icon>New</q-btn>
 
     </q-page-sticky>
-    <q-page-sticky   position="bottom-left" v-show="GroupModel==='card'">
+    <q-page-sticky  :offset="[20,20]" position="bottom-left" v-show="GroupModel==='card'">
 
       <q-card
         class="q-ma-md z-top mdi-border-radius bg-transparent"
@@ -83,8 +84,12 @@
         <q-icon name="list"></q-icon></q-btn>
     </q-page-sticky>
     <q-page-sticky
-      position="bottom-right"  v-show="rightcardmodel=='rightcard'">
-      <q-card v-morph:rightcard:group1:300.resize="rightcardmodel" class="q-pa-sm mdi-border-radius" style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent">
+      position="bottom-right"
+      :offset="[20,20]"
+      v-show="rightcardmodel=='rightcard'">
+      <q-card v-morph:rightcard:group1:300.resize="rightcardmodel"
+              class="q-pa-sm mdi-border-radius"
+              style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
         <q-input
           rounded
           outlined
