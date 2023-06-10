@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR ffF"  style="max-height: 100%">
-    <q-header :elevated="true" class="mdi-border-radius q-ma-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.3);border-radius: 20px 20px 20px 20px">
+    <q-header :elevated="false" class="mdi-border-radius q-ma-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.3);border-radius: 20px 20px 20px 20px">
     <q-toolbar class="bg-transparent">
       <q-btn flat round dense icon="clear" color="black" style="background-color: rgba(255,255,255,0.2)" @click="backtologin"/>
       <q-toolbar-title class="justify-between" style="">
