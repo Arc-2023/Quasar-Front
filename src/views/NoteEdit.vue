@@ -20,11 +20,11 @@
           >
         </MdEditor>
       <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top"  v-morph:fab:group:300="morph1">
-        <q-btn flat fab icon="list" color="accent" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
+        <q-btn fab icon="list" color="primary" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
       </q-page-sticky>
 
       <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top" v-show="morph1=='card'">
-        <q-card class="q-pa-sm bg-transparent" style="backdrop-filter: blur(10px)"   v-morph:card:group:300.resize="morph1" >
+        <q-card class="q-pa-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.2)"   v-morph:card:group:300.resize="morph1" >
           <q-input rounded standout bottom-slots v-model="note.title" label="Title" counter>
             <template v-slot:append>
               <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
@@ -217,7 +217,7 @@ export default defineComponent({
   },
   data () {
     return {
-      morph1:'fab',
+      morph1: 'fab',
       changelising: 0,
       notereadingindex: 0,
       refstate: false,

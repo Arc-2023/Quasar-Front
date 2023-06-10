@@ -26,7 +26,7 @@
     </q-page-sticky>
     <q-page-sticky
 
-      position="bottom-right"
+      position="bottom-left"
       :offset="[18,18]"
       v-morph:newcard:group2:300.hideFromClone="newmorphing"
       v-show="newmorphing=='newcard'">

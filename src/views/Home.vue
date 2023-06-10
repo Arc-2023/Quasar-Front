@@ -8,8 +8,8 @@
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
             <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm text-black">
               <q-breadcrumbs>
-                <q-breadcrumbs-el :label="username" />
-                <q-breadcrumbs-el :label="currentname" />
+                <q-breadcrumbs-el :label="username"/>
+                <q-breadcrumbs-el :label="currentname"/>
               </q-breadcrumbs>
             </div>
           </transition>
