@@ -2,12 +2,12 @@
 <q-page-container>
   <q-page class="" style="display: flex;flex-direction: column;">
     <q-list>
-      <transition-group
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
-        <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show" >
+
+        <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show">
+          <transition
+            appear
+            enter-active-class="animated flip-right"
+            leave-active-class="animated fadeOut">
           <NoteCard
             v-if="item.ife"
             :id="item.id"
@@ -25,8 +25,9 @@
             @call-delete="deletecard(index)"
           >
           </NoteCard>
+          </transition>
         </div>
-      </transition-group>
+
     </q-list>
     <q-page-sticky
       position="bottom-left"
@@ -211,6 +212,13 @@ export default {
     }
   },
   methods: {
+    intersection (entry) {
+      const ind = entry.target.index
+      console.log(ind)
+      setTimeout(() => {
+        this.notelist[ind].show = false
+      }, 400)
+    },
     togglecardandsend () {
       this.notestore.addnote(this.tmp)
         .then(r => {

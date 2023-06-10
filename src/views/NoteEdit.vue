@@ -20,10 +20,10 @@
           >
         </MdEditor>
       <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top"  v-morph:fab:group:300="morph1">
-        <q-btn fab icon="list" color="primary" @click="morph1='card'" v-show="morph1=='fab'"></q-btn>
+        <q-btn fab icon="list" color="primary" @click="morph1='card'" v-show="morph1=='fab'" :loading="loading"></q-btn>
       </q-page-sticky>
 
-      <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top" v-show="morph1=='card'">
+      <q-page-sticky position="bottom-right" :offset="[28, 18]"  v-show="morph1=='card'">
         <q-card class="q-pa-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.2)"   v-morph:card:group:300.resize="morph1" >
           <q-input rounded standout bottom-slots v-model="note.title" label="Title" counter>
             <template v-slot:append>
@@ -35,11 +35,17 @@
               <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
             </template>
           </q-input>
-          <q-input rounded standout bottom-slots v-model="note.type" label="Type" counter>
-            <template v-slot:append>
-              <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />
-            </template>
-          </q-input>
+          <q-select  standout
+                     v-model="note.type"
+                     :options="options"
+                     rounded label="Type in your type"
+                     transition-show="flip-up"
+                     transition-hide="flip-down"></q-select>
+<!--          <q-input rounded standout bottom-slots v-model="note.type" label="Type" counter>-->
+<!--            <template v-slot:append>-->
+<!--              <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />-->
+<!--            </template>-->
+<!--          </q-input>-->
           <q-card-actions>
             <q-btn @click="savacontent">保存</q-btn>
             <q-btn @click="morph1='fab'">返回</q-btn>
@@ -174,18 +180,24 @@ export default defineComponent({
     const notestore = noteStore()
     const userstore = userStore()
     const note = ref('')
+    const loading = ref(false)
     return {
       toggle,
       GroupModel,
       GroupModel1,
       notestore,
       userstore,
-      note
+      note,
+      loading
     }
   },
   methods: {
+    switchloading (booll) {
+      this.loading = booll
+    },
     async imgAdd (files, callback) {
       console.log(files)
+      this.loading = true
       const arr = []
       for (const fileone of files) {
         const formdata = new FormData()
@@ -194,6 +206,7 @@ export default defineComponent({
           arr.push('https://spring.220608.xyz/getImage/' + res)
           console.log(res)
         })
+        this.loading = false
       }
       callback(arr)
     },
@@ -205,14 +218,20 @@ export default defineComponent({
     },
     savacontent () {
       // eslint-disable-next-line eqeqeq
+      this.loading = true
       this.notestore.updatenote(this.note)
+        .then(e => this.loading = false)
+        .catch(e => this.loading = false)
       console.log('note:', this.note)
     },
     getNote () {
+      this.loading = true
       this.notestore.getnote(this.$route.params.id)
         .then(r => {
           this.note = r
+          this.loading = false
         })
+        .catch(e => this.loading = false)
     }
   },
   data () {
@@ -223,7 +242,8 @@ export default defineComponent({
       refstate: false,
       deleting: '',
       status: true,
-      dialogtoggle: false
+      dialogtoggle: false,
+      options: ['private', 'public']
     }
   },
   mounted () {
