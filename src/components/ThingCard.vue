@@ -1,7 +1,7 @@
 <template>
   <q-card style="
           width: 170px;
-          height: 300px;
+          height: 310px;
           padding: 8px;
           border-radius: 10px;
           transition: all .3s ;
@@ -35,7 +35,7 @@
           <q-chip   class="text-caption " :color="getprogresscolor(itemm)" icon="speed" text-color="white" dense :label="itemm.type">
           </q-chip>
           <q-popup-proxy breakpoint="300"  cover transition-show="scale" transition-hide="scale">
-            <q-input dense filled v-model="itemm.tag">
+            <q-input  dense filled v-model="itemm.tag">
               <template v-slot:append>
                 <q-avatar icon="save" v-ripple @click="updateitem(itemm)"></q-avatar>
               </template>
@@ -73,7 +73,7 @@
         </q-popup-proxy>
       </q-item-section>
     </q-item>
-    <q-item class="bg-grey-2 q-my-sm column " clickable v-ripple style="height: 27%">
+    <q-item class="bg-grey-2 q-mb-sm column mdi-border-radius" clickable v-ripple style="height: 25%;border-radius: 10px">
       <div>
         <q-badge class="absolute-top-left"  outline color="primary" >
           Content
@@ -107,7 +107,10 @@
     <q-item class="q-pa-none q-ma-none">
       <q-item-section>
         <div>
-          <q-input dense filled v-model="itemm.endTime">
+          <q-field standout dense filled >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{itemm.endTime}}</div>
+            </template>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -127,7 +130,7 @@
                 </q-popup-proxy>
               </q-icon>
             </template>
-          </q-input>
+          </q-field>
         </div>
       </q-item-section>
     </q-item>

@@ -4,7 +4,7 @@
     <div class="flex justify-center">
       <transition class="q-ma-sm"
                       v-for="(item,index) in thingdata"
-                      v-show="item.show && is_searched(item)"
+                      v-show="item.show && is_searched(item) && filt_bytag(item)"
                       :key="index"
                         appear
                         enter-active-class="animated fadeIn"
@@ -15,20 +15,23 @@
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-left" :offset="[18,18]" v-morph:newbtn:group2:300.hideFromClone="newmorphing" >
-      <q-btn
-        fab
-        icon="add"
-        color="primary"
-        @click="ToggleNewCard"
+    <q-page-sticky position="bottom-left" :offset="[18,18]" v-morph:newbtn:group2:300.resize="newmorphing" >
+      <div>
+        <q-btn
+          fab
+          icon="add"
+          color="primary"
+          @click="ToggleNewCard"
+        >NEW</q-btn>
+        asflskfsjoifksjfksjfksjfksljf
+      </div>
 
-      >NEW</q-btn>
     </q-page-sticky>
     <q-page-sticky
 
       position="bottom-left"
       :offset="[18,18]"
-      v-morph:newcard:group2:300.hideFromClone="newmorphing"
+      v-morph:newcard:group2:300.resize="newmorphing"
       v-show="newmorphing=='newcard'">
       <q-card  class=" q-pa-sm bg-transparent"
               style="backdrop-filter: blur(10px)">
@@ -38,7 +41,7 @@
           class="q-gutter-sm"
         >
           <q-input
-            filled
+            standout
             v-model="tmpdata.name"
             label="name"
             hint="Enter name"
@@ -48,7 +51,7 @@
           />
 
           <q-input
-            filled
+            standout
             type="number"
             v-model="tmpdata.type"
             label="提醒间隔"
@@ -60,6 +63,7 @@
             dense
           />
           <q-input
+            standout
             :rules="[
               val => val && val.length > 0 || 'Please type something'
             ]"
@@ -85,6 +89,7 @@
             </template>
           </q-input>
           <q-input
+            standout
             :rules="[
               val => val && val.length > 0 || 'Please type something'
             ]"
@@ -109,7 +114,7 @@
             </template>
           </q-input>
           <q-input
-            filled
+            standout
             v-model="tmpdata.tag"
             label="标签"
             hint="Enter tag"
@@ -118,7 +123,7 @@
             dense
           />
           <q-input
-            filled
+            standout
             v-model="tmpdata.message"
             label="Content"
             hint="Enter message"
@@ -142,12 +147,13 @@
     </q-page-sticky>
 
     <q-page-sticky
-      position="bottom-right" >
+      :offset="[18,18]"
+      position="bottom-right"  >
       <q-btn flat fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
         <q-icon name="list"></q-icon></q-btn>
     </q-page-sticky>
     <q-page-sticky
-      position="bottom-right"  v-show="rightcardmodel=='rightcard'">
+      position="bottom-right"  v-show="rightcardmodel=='rightcard'" :offset="[18,18]">
       <q-card v-morph:rightcard:group1:300.resize="rightcardmodel"
               class="q-pa-sm mdi-border-radius"
               style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
@@ -260,27 +266,23 @@ export default defineComponent({
 
   },
   methods: {
+    filt_bytag (item) {
+      return this.active_tag.some(e => item.tag == e) || this.active_tag.length === 0
+    },
     sortby_endtime () {
       this.thingdata.sort((a, b) => {
-        return Date.parse(a.endTime) < Date.parse(a.endTime)
+        const ta = Date.parse(a.endTime)
+        const tb = Date.parse(b.endTime)
+        return ta < tb
       })
     },
     sortby_resttime () {
 
     },
     is_searched (item) {
-      if (this.search_content == '') return true
+      if (this.search_content === '') return true
       else {
-        if (item.name.includes(this.search_content) || item.message.includes(this.search_content)) return true; else return false
-      }
-    },
-    filtdata () {
-      if (this.active_tag.length == 0) {
-        this.thingdata.forEach(e => { e.show = true })
-      } else {
-        this.thingdata.forEach(ee => {
-          if (this.active_tag.some(e => ee.tag == e)) { ee.show = true } else ee.show = false
-        })
+        return (item.name.includes(this.search_content) || item.message.includes(this.search_content))
       }
     },
     activated_tag (index) {
@@ -295,12 +297,9 @@ export default defineComponent({
       }
     },
     isactivated (data) {
-      console.log(this.active_tag)
       if (this.active_tag.some((e) => { return e === data })) {
-        this.filtdata()
         return true
       } else {
-        this.filtdata()
         return false
       }
     },
@@ -360,6 +359,7 @@ export default defineComponent({
             // console.log(e)
             e.show = true
             e.active = true
+            e.showbytag = true
           })
           this.thingdata = rs
           this.thingdata.forEach(e => {

@@ -206,9 +206,9 @@ export default defineComponent({
           arr.push('https://spring.220608.xyz/getImage/' + res)
           console.log(res)
         })
-        this.loading = false
       }
       callback(arr)
+      this.loading = false
     },
     $imgDel (pos) {
       this.delimage(this.imgs[pos])
