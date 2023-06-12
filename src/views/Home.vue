@@ -74,7 +74,7 @@
               :elevated="false"
               style="border-radius: 20px;background: transparent;backdrop-filter: blur(1px)"
               >
-
+      <person-cards></person-cards>
     </q-drawer>
   </q-layout>
 
@@ -84,8 +84,10 @@
 import { defineComponent } from 'vue'
 import { userStore } from 'stores/user-store'
 import { useQuasar } from 'quasar'
+import PersonCards from "components/PersonCards.vue";
 export default defineComponent({
   name: 'Home',
+  components: {PersonCards},
   setup () {
     const userstore = userStore()
     const $q = useQuasar()
