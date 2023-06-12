@@ -24,7 +24,6 @@
     <q-drawer side="right" v-model="drawstatus" breakpoint="800">
       <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" style="" />
     </q-drawer>
-
   </q-page-container>
 
 </template>

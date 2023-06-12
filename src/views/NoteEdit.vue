@@ -19,12 +19,12 @@
           style="height: 88vh"
           >
         </MdEditor>
-      <q-page-sticky position="bottom-right" :offset="[28, 18]" class="z-top"  v-morph:fab:group:300="morph1">
-        <q-btn fab icon="list" color="primary" @click="morph1='card'" v-show="morph1=='fab'" :loading="loading"></q-btn>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" >
+        <q-btn fab icon="list" color="primary" @click="morph1='card'" v-morph:fab:group:300.resize="morph1"  :loading="loading"></q-btn>
       </q-page-sticky>
 
-      <q-page-sticky position="bottom-right" :offset="[28, 18]"  v-show="morph1=='card'">
-        <q-card class="q-pa-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.2)"   v-morph:card:group:300.resize="morph1" >
+      <q-page-sticky position="bottom-right" :offset="[18, 18]"  v-show="morph1=='card'" class="q-pa-sm">
+        <q-card style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.2)" v-morph:card:group:300.resize="morph1" >
           <q-input rounded standout bottom-slots v-model="note.title" label="Title" counter>
             <template v-slot:append>
               <q-icon name="close" @click="note.title = ''" class="cursor-pointer" />

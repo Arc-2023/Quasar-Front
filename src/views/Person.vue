@@ -1,30 +1,37 @@
 <template>
   <q-page-container draggable="false">
-    <q-page>
-      <q-list>
-        <q-item>
-          <q-field dense rounded outlined label="username"  stack-label maxlength="500px" filled style="width: 100%">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ username }} </div>
-            </template>
-          </q-field>
-        </q-item>
-        <q-item clickable v-ripple>
-          <q-field dense rounded outlined label="avatar"  stack-label maxlength="500px" filled style="width: 100%">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ avatar }}</div>
-            </template>
-          </q-field>
-        </q-item>
-        <q-item v-morph:menu:group1:300.resize="alertModel"  @click="togglealertdialog" clickable>
-          <q-field dense rounded outlined label="alertToken"  stack-label length="500px" filled style="width: 100%">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ alertToken }}</div>
-            </template>
-          </q-field>
-        </q-item>
+    <q-page class="q-pa-sm">
+<!--      <q-list>-->
+<!--        <q-item>-->
+<!--          <q-field dense rounded outlined label="username"  stack-label maxlength="500px" filled style="width: 100%">-->
+<!--            <template v-slot:control>-->
+<!--              <div class="self-center full-width no-outline" tabindex="0">{{ username }} </div>-->
+<!--            </template>-->
+<!--          </q-field>-->
+<!--        </q-item>-->
+<!--        <q-item clickable v-ripple>-->
+<!--          <q-field dense rounded outlined label="avatar"  stack-label maxlength="500px" filled style="width: 100%">-->
+<!--            <template v-slot:control>-->
+<!--              <div class="self-center full-width no-outline" tabindex="0">{{ avatar }}</div>-->
+<!--            </template>-->
+<!--          </q-field>-->
+<!--        </q-item>-->
+<!--        <q-item v-morph:menu:group1:300.resize="alertModel"  @click="togglealertdialog" clickable>-->
+<!--          <q-field dense rounded outlined label="alertToken"  stack-label length="500px" filled style="width: 100%">-->
+<!--            <template v-slot:control>-->
+<!--              <div class="self-center full-width no-outline" tabindex="0">{{ alertToken }}</div>-->
+<!--            </template>-->
+<!--          </q-field>-->
+<!--        </q-item>-->
 
-      </q-list>
+<!--      </q-list>-->
+      <div class="flex q-gutter-md-sm">
+        <div>
+          <q-card>
+
+          </q-card>
+        </div>
+      </div>
       <q-stepper
         v-morph:step:group1:300.resize="alertModel"
         active-color="purple"

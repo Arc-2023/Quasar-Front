@@ -14,8 +14,8 @@
             </div>
           </transition>
           <q-tabs  dense class="desktop-only absolute-center text-black mdi-border-radius">
-            <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
-            <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+            <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+            <q-route-tab icon="article" to="/"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
           </q-tabs>
@@ -26,24 +26,24 @@
 <!--            <span class="slider"></span>-->
 
 <!--          </label>-->
-          <div class="">
-            <q-badge rounded color="yellow" text-color="black" :label="permission" align="top">
-            </q-badge>
-          </div>
-            <q-avatar v-ripple text-black>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+<!--          <div class="">-->
+<!--            <q-badge rounded color="yellow" text-color="black" :label="permission" align="top">-->
+<!--            </q-badge>-->
+<!--          </div>-->
+            <q-avatar v-ripple:black text-black @click="this.switchsidebar"
+             class="cursor-pointer">
+              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" alt="">
             </q-avatar>
         </div>
       </q-toolbar-title>
     </q-toolbar >
       <q-tabs dense class="platform-android-only text-black bg-transparent">
-        <q-route-tab icon="perm_identity" to="/"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
-        <q-route-tab icon="article" to="/note"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="article" to="/"  @click="changename('Home')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
       </q-tabs>
     </q-header>
-
     <router-view class="myrouter"  v-slot="{ Component }">
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
         <component :is="Component" @changename="changename"/>
@@ -66,6 +66,16 @@
         </div>
       </div>
     </q-footer>
+    <q-drawer v-model="sidebar"
+              side="right"
+              class="row mdi-border-radius"
+              :overlay="true"
+              :width="190"
+              :elevated="false"
+              style="border-radius: 20px;background: transparent;backdrop-filter: blur(1px)"
+              >
+
+    </q-drawer>
   </q-layout>
 
 </template>
@@ -86,6 +96,7 @@ export default defineComponent({
   },
   data () {
     return {
+      sidebar: false,
       showrouter: true,
       avatar: this.userstore.getAvatar,
       permission: this.userstore.getRole,
@@ -101,12 +112,8 @@ export default defineComponent({
 
   },
   methods: {
-    changename (name) {
-      this.showtitle = false
-      this.currentname = name
-      setTimeout(() => {
-        this.showtitle = true
-      })
+    switchsidebar () {
+      this.sidebar = !this.sidebar
     },
     backtologin () {
       this.$router.push('/login')

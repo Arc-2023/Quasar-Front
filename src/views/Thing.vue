@@ -15,26 +15,23 @@
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-left" :offset="[18,18]" v-morph:newbtn:group2:300.resize="newmorphing" >
-      <div>
+    <q-page-sticky position="bottom-left" :offset="[18,18]"  >
         <q-btn
+          v-morph:newbtn:group2:300.resize="newmorphing"
           fab
           icon="add"
           color="primary"
           @click="ToggleNewCard"
         >NEW</q-btn>
-        asflskfsjoifksjfksjfksjfksljf
-      </div>
-
     </q-page-sticky>
     <q-page-sticky
-
       position="bottom-left"
       :offset="[18,18]"
       v-morph:newcard:group2:300.resize="newmorphing"
       v-show="newmorphing=='newcard'">
       <q-card  class=" q-pa-sm bg-transparent"
-              style="backdrop-filter: blur(10px)">
+              style="
+              backdrop-filter: blur(10px)">
         <q-form
           @submit="addthing"
           @reset="onReset"
@@ -141,22 +138,21 @@
     </q-page-sticky>
 
     <q-page-sticky position="top-right" :offset="[18,18]" >
-      <q-btn fab color="accent" @click="this.refresh">
+      <q-btn fab color="purple-7" @click="this.refresh">
         <i class="fa-sharp fa-solid fa-rotate-right"></i>
       </q-btn>
     </q-page-sticky>
-
     <q-page-sticky
       :offset="[18,18]"
-      position="bottom-right"  >
-      <q-btn flat fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
-        <q-icon name="list"></q-icon></q-btn>
+      position="bottom-right">
+      <q-btn color="primary" v-morph:fab:group1:300.resize="rightcardmodel" fab @click="this.rightcardmodel='rightcard'">
+        <q-icon name="list" color="white"></q-icon></q-btn>
     </q-page-sticky>
     <q-page-sticky
       position="bottom-right"  v-show="rightcardmodel=='rightcard'" :offset="[18,18]">
-      <q-card v-morph:rightcard:group1:300.resize="rightcardmodel"
-              class="q-pa-sm mdi-border-radius"
-              style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
+      <q-card
+        v-morph:rightcard:group1:300.resize="rightcardmodel"
+        class="q-pa-sm mdi-border-radius" style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
         <q-input
           rounded
           outlined

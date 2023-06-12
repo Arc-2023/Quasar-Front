@@ -14,14 +14,14 @@ const routes = [
     children: [
       {
         path: '',
+        component: () => import('../views/NoteList.vue')
+      },
+      {
+        path: '/person',
         component: () => import('../views/Person.vue'),
         meta: {
           requireAuth: true
         }
-      },
-      {
-        path: '/note',
-        component: () => import('../views/NoteList.vue')
       },
       {
         path: '/note/edit/:id',
