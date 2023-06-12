@@ -1,5 +1,5 @@
 import { createPinia, defineStore } from 'pinia'
-import { getUserdata, login, register, setAlertToken } from 'src/api/user'
+import { getUserdata, login, register, setAlertToken, setUserIcon } from 'src/api/user'
 import { Notify } from 'quasar'
 createPinia()
 export const userStore = defineStore('userStore', {
@@ -7,7 +7,7 @@ export const userStore = defineStore('userStore', {
     username: localStorage.getItem('username'),
     alertToken: localStorage.getItem('alertToken'),
     role: localStorage.getItem('permission'),
-    Avatar: localStorage.getItem('avatar'),
+    avatar: localStorage.getItem('avatar'),
     userdata: localStorage.getItem('userdata')
   }),
 
@@ -38,13 +38,13 @@ export const userStore = defineStore('userStore', {
       return await login({ username: data.username, password: data.password, remember: data.remember })
         .then(res => {
           this.username = res.data.data.username
-          this.Avatar = res.data.data.Avatar
+          this.avatar = res.data.data.avatar
           this.role = res.data.data.permission
           this.userdata = res.data.data.userdata
           this.alertToken = res.data.data.alertToken
 
           localStorage.setItem('username', data.username)
-          localStorage.setItem('avatar', res.data.data.Avatar)
+          localStorage.setItem('avatar', res.data.data.avatar)
           localStorage.setItem('permission', res.data.data.permission)
           localStorage.setItem('userdata', res.data.data.userdata)
           localStorage.setItem('alertToken', res.data.data.alertToken)
@@ -71,7 +71,7 @@ export const userStore = defineStore('userStore', {
       return await getUserdata()
     },
     async setalerttoken (token) {
-      return await setAlertToken({ alertToken: token })
+      setAlertToken({ alertToken: token })
         .then(r => {
           Notify.create('AlertToken已修改')
           localStorage.setItem('alertToken', token)
@@ -80,6 +80,26 @@ export const userStore = defineStore('userStore', {
         .catch(e => {
           Notify.create('AlertToken修改失败')
           return Promise.reject(false)
+        })
+    },
+    async setimageicon (url) {
+      const data = new FormData()
+      data.set('url', url)
+      return setUserIcon(data)
+        .then(e => {
+          Notify.create({
+            message: '图片设置完毕',
+            type: 'info'
+          })
+          this.avatar = url
+          return e.data
+        })
+        .catch(e => {
+          Notify.create({
+            message: '图片设置失败: ' + e.data,
+            type: 'error'
+          })
+          return Promise.reject()
         })
     }
   }

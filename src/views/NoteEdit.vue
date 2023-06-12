@@ -249,7 +249,6 @@ export default defineComponent({
   mounted () {
     this.getNote()
   }
-
 })
 </script>
 

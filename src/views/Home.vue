@@ -32,13 +32,13 @@
 <!--          </div>-->
             <q-avatar v-ripple:black text-black @click="this.switchsidebar"
              class="cursor-pointer">
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" alt="">
+              <q-img fit="cover" :src="avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'" alt=""/>
             </q-avatar>
         </div>
       </q-toolbar-title>
     </q-toolbar >
       <q-tabs dense class="platform-android-only text-black bg-transparent">
-        <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+<!--        <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>-->
         <q-route-tab icon="article" to="/"  @click="changename('Home')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
@@ -68,14 +68,82 @@
     </q-footer>
     <q-drawer v-model="sidebar"
               side="right"
-              class="row mdi-border-radius"
+              class="row flex column"
               :overlay="true"
               :width="190"
+              breakpoint="4000"
               :elevated="false"
-              style="border-radius: 20px;background: transparent;backdrop-filter: blur(1px)"
+              style="border-radius: 20px;background: transparent;backdrop-filter: blur(1px);"
               >
-      <person-cards></person-cards>
+      <div class="absolute-top mdi-border-radius q-pa-sm align-center">
+        <div style="width: 100%;border-radius: 10px;" class="flex justify-center cursor-pointer">
+            <q-img @click="uploaddialog=true"
+                   class=" icon cursor-pointer mdi-border-radius"
+                   style="width: 75%;border-radius: 10px"
+                   @mouseenter="e=>e.target.style.borderRadius = '20px'"
+                   @mouseleave="e=>e.target.style.borderRadius = '10px'"
+                   v-ripple="blue"
+                   :spinner-color="blue"
+                   :src="avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'"
+                   alt=""/>
+        </div>
+        <q-space></q-space>
+          <q-item class="justify-center"
+                  style=""
+                  @mouseenter="e=>{e.target.style.borderWidth = '2px'}"
+                  @mouseleave="e=>e.target.style.borderWidth = '0px'">
+            <q-chip class="flex" style="flex: 1 1 0;" >
+              <q-avatar icon="perm_identity">
+              </q-avatar>
+              <div class="text-weight-bold ellipsis text-center" style="flex:1 1 0;">{{ username }}</div>
+            </q-chip>
+          </q-item>
+        <q-item>
+          <q-chip class="justify-center" style="flex:1 1 0">
+            <div class="text-weight-bold ellipsis text-center" style="flex:1 1 0;">{{ permission }}</div>
+          </q-chip>
+        </q-item>
+        <q-item  >
+          <q-chip class="justify-center" style="flex:1 1 0" @click="tokendialog = true" clickable>
+            <div class="text-weight-bold ellipsis text-center" style="flex:1 1 0;">{{alertToken}}</div>
+          </q-chip>
+        </q-item>
+      </div>
+
     </q-drawer>
+    <q-dialog v-model="tokendialog" class="z-top">
+        <q-card class="absolute-center z-top">
+          <q-card-section class="bg-amber ">
+            <div class="text-h6">输入你的Token</div>
+            <q-input stack-label v-model="alertToken" clearable/>
+          </q-card-section>
+          <q-card-actions align="right" class="text-primary">
+            <q-btn  flat label="取消" v-close-popup></q-btn>
+            <q-btn flat label="确定" @click="setalertToken"></q-btn>
+          </q-card-actions>
+        </q-card>
+    </q-dialog>
+    <q-dialog v-model="uploaddialog">
+      <q-card class="q-pa-none mdi-border-radius" style="border-radius: 20px">
+<!--          <q-uploader-->
+<!--            style="max-width: 300px"-->
+<!--            url="https://spring.220608.xyz/uploadImage"-->
+<!--            label="Restricted to images"-->
+<!--            multiple-->
+<!--            accept=".jpg, image/*"-->
+<!--            @rejected="onimagerejected"-->
+<!--            @added-->
+<!--          ></q-uploader>-->
+        <q-file :loading="loadingicon" standout="bg-primary text-white" v-model="imgFile" label="上传壁纸">
+          <template #append>
+            <q-avatar  v-ripple class="cursor-pointer" icon="upload" @click="uploadicon"></q-avatar>
+          </template>
+        </q-file>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn ripple flat label="关闭" v-close-popup></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-layout>
 
 </template>
@@ -84,36 +152,57 @@
 import { defineComponent } from 'vue'
 import { userStore } from 'stores/user-store'
 import { useQuasar } from 'quasar'
-import PersonCards from "components/PersonCards.vue";
+import { noteStore } from 'stores/note-store'
 export default defineComponent({
   name: 'Home',
-  components: {PersonCards},
   setup () {
     const userstore = userStore()
     const $q = useQuasar()
+    const notestore = noteStore()
     return {
       userstore,
-      $q
+      $q,
+      notestore
     }
   },
   data () {
     return {
+      imgFile: '',
+      uploaddialog: false,
+      tokendialog: false,
       sidebar: false,
       showrouter: true,
       avatar: this.userstore.getAvatar,
       permission: this.userstore.getRole,
       username: this.userstore.getUsername,
+      alertToken: this.userstore.getalertToken,
       currentname: 'Home',
       showtitle: true,
       userdata: this.userstore.getUserdata,
-      cff: 'https://www.cloudflare.com'
-
+      cff: 'https://www.cloudflare.com',
+      loadingicon: false
     }
   },
   mounted () {
-
+    this.avatar = this.userstore.getAvatar
   },
   methods: {
+    async uploadicon () {
+      this.loadingicon = true
+      const formdata = new FormData()
+      formdata.append('file', this.imgFile)
+      await this.notestore.uploadimage(formdata).then(res => {
+        this.avatar = 'https://spring.220608.xyz/getImage/' + res
+      })
+      this.seticonurl()
+      this.loadingicon = false
+    },
+    setalertToken () {
+      this.userstore.setalerttoken(this.alertToken)
+    },
+    seticonurl () {
+      this.userstore.setimageicon(this.avatar)
+    },
     switchsidebar () {
       this.sidebar = !this.sidebar
     },
@@ -122,6 +211,13 @@ export default defineComponent({
     },
     jumptocf (booll) {
       booll === true ? window.location.replace(this.cff) : window.location.replace(this.cff)
+    },
+    changename (name) {
+      this.showtitle = false
+      this.currentname = name
+      setTimeout(() => {
+        this.showtitle = true
+      })
     }
 
   },
@@ -172,6 +268,9 @@ export default defineComponent({
   color:purple;
   font-size: 23px;
 }
+.icon{
+  transition: all .5s ease-in-out;
+ }
 /* The switch - the box around the slider */
 /*.switch {*/
 /*  font-size: 17px;*/

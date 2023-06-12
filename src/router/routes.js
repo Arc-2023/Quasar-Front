@@ -18,7 +18,7 @@ const routes = [
       },
       {
         path: '/person',
-        component: () => import('../views/Person.vue'),
+        component: () => import('../old/Person.vue'),
         meta: {
           requireAuth: true
         }
