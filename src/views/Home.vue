@@ -1,6 +1,7 @@
 <template>
   <q-layout view="hHh lpR ffF"  style="max-height: 100%">
-    <q-header :elevated="false" class="mdi-border-radius q-ma-sm" style="backdrop-filter: blur(10px);background-color: rgba(255,255,255,0.3);border-radius: 20px 20px 20px 20px">
+    <q-header :elevated="false" class="mdi-border-radius q-ma-sm"
+              style="backdrop-filter: blur(30px);background-color: rgba(100,100,100,0.1);border-radius: 20px 20px 20px 20px">
     <q-toolbar class="bg-transparent">
       <q-btn flat round dense icon="clear" color="black" style="background-color: rgba(255,255,255,0.2)" @click="backtologin"/>
       <q-toolbar-title class="justify-between" style="">
@@ -14,7 +15,7 @@
             </div>
           </transition>
           <q-tabs  dense class="desktop-only absolute-center text-black mdi-border-radius">
-            <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+<!--            <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>-->
             <q-route-tab icon="article" to="/"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>

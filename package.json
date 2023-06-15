@@ -10,24 +10,20 @@
     "enterCard": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@kangc/v-md-editor": "^2.3.15",
     "@lezer/common": "^1.0.0",
-    "@quasar/extras": "^1.0.0",
-    "@vavt/md-editor-extension": "^3.0.0",
+    "@quasar/extras": "^1.16.4",
     "@vue/compiler-sfc": "^3.3.4",
-    "axios": "^1.3.4",
-    "core-js": "^3.29.1",
-    "js-cookie": "^3.0.1",
-    "md-editor-v3": "^4.0.2",
-    "pinia": "^2.0.33",
-    "quasar": "^2.11.10",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0",
-    "webpack": "^5.0.0"
+    "axios": "^1.4.0",
+    "core-js": "^3.31.0",
+    "md-editor-v3": "^4.1.1",
+    "pinia": "^2.1.3",
+    "quasar": "^2.12.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.2",
+    "webpack": "^5.86.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0",
-    "@quasar/quasar-app-extension-qmarkdown": "^2.0.0-beta.7",
     "autoprefixer": "^10.4.2",
     "electron": "^25.0.1",
     "electron-packager": "^15.2.0",

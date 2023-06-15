@@ -171,7 +171,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .q-page {
-  background-image: url('https://source.unsplash.com/random');
+  background-image: url('https://api.dujin.org/bing/1920.php');
   background-size: cover;
 }
 

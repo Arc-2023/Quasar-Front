@@ -28,8 +28,7 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
-      'pinia',
-      'md-editor'
+      'pinia'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -42,12 +41,12 @@ module.exports = configure(function (/* ctx */) {
       'ionicons-v4',
       'mdi-v5',
       'fontawesome-v6',
-      'eva-icons',
-      'themify',
-      'line-awesome',
-      // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
+      // 'eva-icons',
+      // 'themify',
+      // 'line-awesome',
+      'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
+      // 'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
 
@@ -92,7 +91,7 @@ module.exports = configure(function (/* ctx */) {
       cors: true,
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:8888/',
+          target: 'https://spring.220608.xyz/',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         },

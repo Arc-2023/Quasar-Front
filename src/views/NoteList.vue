@@ -2,12 +2,12 @@
 <q-page-container>
   <q-page class="" style="display: flex;flex-direction: column;">
     <q-list>
-
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut">
         <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show">
-          <transition
-            appear
-            enter-active-class="animated flip-right"
-            leave-active-class="animated fadeOut">
+
           <NoteCard
             v-if="item.ife"
             :id="item.id"
@@ -25,23 +25,23 @@
             @call-delete="deletecard(index)"
           >
           </NoteCard>
-          </transition>
         </div>
-
+      </transition-group>
     </q-list>
     <q-page-sticky
       position="bottom-left"
-      :offset="[20,20]">
-      <q-btn flat v-ripple fab class="q-ma-sm bg-blue"  v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
-        <q-icon name="add" ></q-icon>New</q-btn>
-
+      :offset="[18,18]">
+      <q-btn flat v-ripple fab class=" bg-blue" v-morph:fab:group:300.resize="GroupModel" @click="this.GroupModel='card'">
+        <q-icon name="add" ></q-icon>
+        New
+      </q-btn>
     </q-page-sticky>
-    <q-page-sticky  :offset="[20,20]" position="bottom-left" v-show="GroupModel==='card'">
-
+    <q-page-sticky  :offset="[18,18]" position="bottom-left" v-show="GroupModel==='card'">
       <q-card
-        class="q-ma-md z-top mdi-border-radius bg-transparent"
-        style="max-width: 200px;border-radius: 10px;backdrop-filter: blur(10px)"
         v-morph:card:group:300.resize="GroupModel"
+        class="mdi-border-radius bg-transparent"
+        style="max-width: 200px;border-radius: 10px;backdrop-filter: blur(10px)"
+
       >
         <q-card-section class="text-h6">
           What's Your Point?
@@ -50,9 +50,11 @@
           请输入你的信息：
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md">
+          <q-form class="q-gutter-md" @submit="togglecardandsend">
             <q-input
-              filled
+              rounded
+              outlined
+              dense
               v-model="tmp.title"
               label="Note Title"
               hint="Type in Title"
@@ -60,7 +62,9 @@
               :rules="[ val => val && val.length > 0 || 'Please type something']"
             />
             <q-input
-              filled
+              rounded
+              outlined
+              dense
               type="text"
               v-model="tmp.intro"
               label="Note Intro"
@@ -70,26 +74,25 @@
           val => val !== null && val !== '' || 'Please type your intro',
         ]"
             />
+            <q-btn flat label="否" v-close-popup @click="this.GroupModel='fab'"></q-btn>
+            <q-btn flat label="是" v-close-popup type="submit"></q-btn>
           </q-form>
         </q-card-section>
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="否" v-close-popup @click="this.GroupModel='fab'"></q-btn>
-          <q-btn flat label="是" v-close-popup @click="togglecardandsend"></q-btn>
-        </q-card-actions>
       </q-card>
     </q-page-sticky>
 
     <q-page-sticky
-      position="bottom-right" >
-      <q-btn flat fab class="q-ma-sm bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
+      :offset="[18,18]"
+      position="bottom-right">
+      <q-btn flat fab class="bg-blue" @click="this.rightcardmodel='rightcard'" v-morph:fab:group1:300.resize="rightcardmodel">
         <q-icon name="list"></q-icon></q-btn>
     </q-page-sticky>
     <q-page-sticky
       position="bottom-right"
-      :offset="[20,20]"
+      :offset="[18,18]"
       v-show="rightcardmodel=='rightcard'">
       <q-card v-morph:rightcard:group1:300.resize="rightcardmodel"
-              class="q-pa-sm mdi-border-radius"
+              class="mdi-border-radius q-pa-sm"
               style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
         <q-input
           rounded
@@ -124,7 +127,6 @@
         <q-card-actions>
           <q-btn color="white" flat text-color="black" @click="this.rightcardmodel='fab'">BACK</q-btn>
         </q-card-actions>
-
       </q-card>
 
     </q-page-sticky>
@@ -214,7 +216,6 @@ export default {
   methods: {
     intersection (entry) {
       const ind = entry.target.index
-      console.log(ind)
       setTimeout(() => {
         this.notelist[ind].show = false
       }, 400)
@@ -328,7 +329,7 @@ export default {
           const cards = document.getElementsByClassName('mycard')
           for (let i = 0; i < cards.length; i++) {
             const element = cards[i]
-            addMouseOverListener(element)
+            // addMouseOverListener(element)
             addMouseLeaveListener(element)
             addMouseEnterListener(element)
           }
@@ -369,7 +370,15 @@ export default {
         element
           .style
           .borderRadius = '40px'
+        const rect = element.getBoundingClientRect()
+        const rotateX = (event.x - (rect.x + rect.width / 2)) / 30
+        const rotateY = (event.y - (rect.y + rect.height / 2)) / 30
+        window.requestAnimationFrame(function () {
+          element.style.transform =
+            'translate(' + rotateX / 2 + 'px,' + rotateY + 'px) '
+        })
       })
+
     }
   }
 }

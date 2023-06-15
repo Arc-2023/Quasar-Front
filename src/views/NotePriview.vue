@@ -15,7 +15,7 @@
 <!--      </q-drawer>-->
       <q-page-sticky
         position="bottom-right">
-        <q-btn flat fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
+        <q-btn :loading="loading" flat fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
           <q-icon name="add" ></q-icon></q-btn>
 
       </q-page-sticky>
@@ -49,6 +49,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       note: '',
       drawstatus: false
     }
@@ -60,7 +61,7 @@ export default {
         .then(r => {
           this.note = r
           this.text = this.note.content
-          console.log(this.note)
+          this.loading = false
         })
     }
   },

@@ -61,10 +61,12 @@
           {{ $props.type }}
         </q-badge>
       </div>
+        <q-badge rounded align="middle" class="absolute-bottom-right q-mr-md q-mb-sm"
+                 style="background-color: rgba(0,99,194,0.84);padding: 2px">
+          {{$props.views}}
+        </q-badge>
       </q-card-section>
-      <div class="absolute-bottom-right q-ma-md" style="background-color: #00ae9e;overflow: hidden;border-radius: 15px;max-width: 25px;max-height: 25px">
-        {{$props.views}}
-      </div>
+
     </q-card>
     <q-menu
       touch-position
@@ -175,7 +177,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$props.index)
+    // console.log(this.$props.index)
   },
   computed () {
 
@@ -188,8 +190,8 @@ export default {
 
 <style scoped>
 .mycard{
-  background: rgba(255,255,255,0.3);
-  backdrop-filter: blur(2px);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(0px);
 }
 .mycard:hover{
   backdrop-filter: blur(10px);

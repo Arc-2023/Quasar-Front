@@ -31,24 +31,27 @@
       v-show="newmorphing=='newcard'">
       <q-card  class=" q-pa-sm bg-transparent"
               style="
-              backdrop-filter: blur(10px)">
+              backdrop-filter: blur(100px)">
         <q-form
           @submit="addthing"
           @reset="onReset"
           class="q-gutter-sm"
         >
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             v-model="tmpdata.name"
             label="name"
             hint="Enter name"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type something']"
-            dense
           />
 
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             type="number"
             v-model="tmpdata.type"
             label="提醒间隔"
@@ -57,17 +60,18 @@
           val => val !== null && val !== '' || '请输入间隔',
           val => val > 0 && val < 144 || '间隔不符合规范'
         ]"
-            dense
           />
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             :rules="[
               val => val && val.length > 0 || 'Please type something'
             ]"
             hint="输入时间"
             label="startTime"
             lazy-rules
-            dense filled v-model="tmpdata.startTime">
+            v-model="tmpdata.startTime">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -86,13 +90,15 @@
             </template>
           </q-input>
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             :rules="[
               val => val && val.length > 0 || 'Please type something'
             ]"
             hint="输入时间"
             label="endTime"
-            dense filled v-model="tmpdata.endTime">
+            v-model="tmpdata.endTime">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -111,27 +117,29 @@
             </template>
           </q-input>
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             v-model="tmpdata.tag"
             label="标签"
             hint="Enter tag"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type something']"
-            dense
           />
           <q-input
-            standout
+            rounded
+            outlined
+            dense
             v-model="tmpdata.message"
             label="Content"
             hint="Enter message"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type something']"
-            dense
           />
           <div>
-            <q-btn label="Submit" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" @click="onReset" />
-            <q-btn label="Close" color="primary" flat class="q-ml-sm" @click="ToggleNewCard" />
+            <q-btn flat color="green" label="Submit" type="submit"/>
+            <q-btn label="Reset" type="reset" color="red" flat class="q-ml-sm" @click="onReset" />
+            <q-btn label="Close" flat class="q-ml-sm" @click="ToggleNewCard" />
           </div>
         </q-form>
       </q-card>

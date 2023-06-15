@@ -8,22 +8,22 @@ const service = axios.create({
   timeout: 15000
 })
 
-async function sch () {
-  let con = 0
-  const queue = []
-  return async (a) => {
-    con >= 10 && await new Promise((resolve) => {
-      queue.push(resolve)
-    })
-    con += 1
-    const res = await a()
-    queue > 0 && queue.shift()()
-    con -= 1
-    return res
-  }
-}
+// async function sch () {
+//   let con = 0
+//   const queue = []
+//   return async (a) => {
+//     con >= 10 && await new Promise((resolve) => {
+//       queue.push(resolve)
+//     })
+//     con += 1
+//     const res = await a()
+//     queue > 0 && queue.shift()()
+//     con -= 1
+//     return res
+//   }
+// }
 
-const ff = sch()
+// const ff = sch()
 
 service.interceptors.request.use(
   (config) => {

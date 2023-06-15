@@ -17,13 +17,6 @@ const routes = [
         component: () => import('../views/NoteList.vue')
       },
       {
-        path: '/person',
-        component: () => import('../old/Person.vue'),
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
         path: '/note/edit/:id',
         component: () => import('../views/NoteEdit.vue'),
         meta: {
