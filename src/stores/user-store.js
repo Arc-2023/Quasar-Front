@@ -1,9 +1,12 @@
 import { createPinia, defineStore } from 'pinia'
 import { getUserdata, login, register, setAlertToken, setUserIcon } from 'src/api/user'
-import { Notify } from 'quasar'
+import { Notify, useQuasar } from 'quasar'
+
+
 createPinia()
 export const userStore = defineStore('userStore', {
   state: () => ({
+    // 每次页面刷新后都会重新通过localstorge获取
     username: localStorage.getItem('username'),
     alertToken: localStorage.getItem('alertToken'),
     role: localStorage.getItem('permission'),
@@ -38,19 +41,16 @@ export const userStore = defineStore('userStore', {
       return await login({ username: data.username, password: data.password, remember: data.remember })
         .then(res => {
           this.username = res.data.data.username
-          this.avatar = res.data.data.avatar
+          this.avatar = res.data.data.avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'
+          // console.log(this.avatar)
           this.role = res.data.data.permission
           this.userdata = res.data.data.userdata
           this.alertToken = res.data.data.alertToken
-
           localStorage.setItem('username', data.username)
-          localStorage.setItem('avatar', res.data.data.avatar)
+          localStorage.setItem('avatar', this.avatar)
           localStorage.setItem('permission', res.data.data.permission)
           localStorage.setItem('userdata', res.data.data.userdata)
           localStorage.setItem('alertToken', res.data.data.alertToken)
-          // Notify.create({
-          //   message: res.data.msg
-          // })
           return true
         }).catch(e => {
           return Promise.reject(false)
@@ -83,24 +83,24 @@ export const userStore = defineStore('userStore', {
         })
     },
     async setimageicon (url) {
-      const data = new FormData()
-      data.set('url', url)
-      return setUserIcon(data)
-        .then(e => {
-          Notify.create({
-            message: '图片设置完毕',
-            type: 'info'
-          })
-          this.avatar = url
-          return e.data
+      // console.log(url)
+      // const data = new FormData()
+      // data.set('url', url)
+      setUserIcon({ url }).then(res => {
+        this.avatar = url
+        localStorage.setItem('avatar', url)
+        Notify.create({
+          message: '图片设置完毕',
+          type: 'info'
         })
-        .catch(e => {
-          Notify.create({
-            message: '图片设置失败: ' + e.data,
-            type: 'error'
-          })
-          return Promise.reject()
+        return Promise.resolve()
+      }).catch(ee => {
+        Notify.create({
+          message: '图片设置失败: ' + ee.data,
+          type: 'error'
         })
+        return Promise.reject()
+      })
     },
     clearinfo () {
       this.username = ''

@@ -27,10 +27,10 @@ export function setAlertToken (token) {
     params: token
   })
 }
-export function setUserIcon (dat) {
+export function setUserIcon (iconurl) {
   return request({
     url: 'api/setUserIcon',
     method: 'post',
-    data:dat
+    data: iconurl
   })
 }

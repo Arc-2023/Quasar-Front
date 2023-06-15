@@ -1,11 +1,14 @@
 <template>
   <q-layout view="hHh lpR ffF"  style="max-height: 100%">
     <q-header :elevated="false" class="mdi-border-radius q-ma-sm"
-              style="backdrop-filter: blur(30px);background-color: rgba(100,100,100,0.1);border-radius: 20px 20px 20px 20px">
+              style="backdrop-filter: blur(30px);background-color: rgba(100,100,100,0.1);border-radius: 20px 20px 20px 20px;overflow: hidden">
+      <q-ajax-bar color="primary"></q-ajax-bar>
     <q-toolbar class="bg-transparent">
+
       <q-toolbar-title class="justify-between" style="">
 
         <div class="row wrap">
+
           <div>
             <q-btn flat round dense
                    class="q-mr-sm"
@@ -13,9 +16,9 @@
                    color="black"
                    style="background-color: rgba(255,255,255,0.2)" @click="historyback"/>
           </div>
-          <q-avatar v-ripple:black text-black @click="this.switchsidebar"
-                    class="cursor-pointer">
-            <q-img :spinner-color="black" fit="fill" :src="avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'"/>
+          <q-avatar square v-ripple:black text-black @click="this.switchsidebar"
+                    class="cursor-pointer mdi-border-radius" style="border-radius: 5px">
+            <q-img spinner-size="10px" spinner-color="primary" fit="scale-down" :src="getavatar" alt="default"/>
           </q-avatar>
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
 
@@ -202,7 +205,7 @@ export default defineComponent({
       tokendialog: false,
       sidebar: false,
       showrouter: true,
-      avatar: '',
+      avatar: this.userstore.getAvatar,
       permission: this.userstore.getRole,
       username: this.userstore.getUsername,
       alertToken: this.userstore.getalertToken,
@@ -214,9 +217,10 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.avatar = this.userstore.getAvatar
+
   },
   methods: {
+
     historyback () {
       window.history.back()
     },
@@ -225,6 +229,7 @@ export default defineComponent({
       const formdata = new FormData()
       formdata.append('file', this.imgFile)
       await this.notestore.uploadimage(formdata).then(res => {
+        console.log(res)
         this.avatar = 'https://spring.220608.xyz/getImage/' + res
       })
       this.seticonurl()
@@ -256,6 +261,9 @@ export default defineComponent({
 
   },
   computed: {
+    getavatar () {
+      return this.avatar == null ? 'https://cdn.quasar.dev/logo-v2/svg/logo.svg' : this.avatar
+    }
   }
 
 })

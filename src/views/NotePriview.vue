@@ -1,9 +1,8 @@
 <template>
   <q-page-container>
     <q-page class="q-pa-md">
-      <div style="display: flex;justify-items: center" class="q-ma-sm">
+      <div style="display: flex;justify-items: center" class="">
           <MdPreview :editorId="id" :modelValue="text" style="overflow: hidden;border-radius: 20px"/>
-
       </div>
 
 <!--      <q-drawer-->
@@ -17,11 +16,10 @@
         position="bottom-right">
         <q-btn :loading="loading" flat fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
           <q-icon name="add" ></q-icon></q-btn>
-
       </q-page-sticky>
 
     </q-page>
-    <q-drawer side="right" v-model="drawstatus" breakpoint="800">
+    <q-drawer class="q-pa-sm" side="right" v-model="drawstatus" breakpoint="800">
       <MdCatalog class="" :editorId="id" :scrollElement="scrollElement" style="" />
     </q-drawer>
   </q-page-container>
@@ -34,7 +32,7 @@ import 'md-editor-v3/lib/preview.css'
 import { noteStore } from 'stores/note-store'
 import { useRouter } from 'vue-router'
 const id = 'preview-only'
-const text = ref('# Hello Editor')
+const text = ref('')
 const scrollElement = document.documentElement
 
 export default {
