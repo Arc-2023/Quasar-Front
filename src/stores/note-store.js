@@ -77,7 +77,6 @@ export const noteStore = defineStore('noteStore', {
           return r.data.filename
         })
         .catch(e => {
-          Notify.create('图片删除失败')
           return Promise.reject()
         })
     },

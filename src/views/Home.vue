@@ -3,10 +3,22 @@
     <q-header :elevated="false" class="mdi-border-radius q-ma-sm"
               style="backdrop-filter: blur(30px);background-color: rgba(100,100,100,0.1);border-radius: 20px 20px 20px 20px">
     <q-toolbar class="bg-transparent">
-      <q-btn flat round dense icon="clear" color="black" style="background-color: rgba(255,255,255,0.2)" @click="backtologin"/>
       <q-toolbar-title class="justify-between" style="">
+
         <div class="row wrap">
+          <div>
+            <q-btn flat round dense
+                   class="q-mr-sm"
+                   icon="arrow_back"
+                   color="black"
+                   style="background-color: rgba(255,255,255,0.2)" @click="historyback"/>
+          </div>
+          <q-avatar v-ripple:black text-black @click="this.switchsidebar"
+                    class="cursor-pointer">
+            <q-img :spinner-color="black" fit="fill" :src="avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'"/>
+          </q-avatar>
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
+
             <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm text-black">
               <q-breadcrumbs>
                 <q-breadcrumbs-el :label="username" class="text-bold" style="
@@ -26,6 +38,7 @@
               </q-breadcrumbs>
             </div>
           </transition>
+
           <q-tabs  dense class="desktop-only absolute-center text-black mdi-border-radius">
 <!--            <q-route-tab icon="perm_identity" to="/person"  @click="changename('Person')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>-->
             <q-route-tab icon="article" to="/"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
@@ -43,10 +56,14 @@
 <!--            <q-badge rounded color="yellow" text-color="black" :label="permission" align="top">-->
 <!--            </q-badge>-->
 <!--          </div>-->
-            <q-avatar v-ripple:black text-black @click="this.switchsidebar"
-             class="cursor-pointer">
-              <q-img fit="cover" :src="avatar || 'https://cdn.quasar.dev/logo-v2/svg/logo.svg'" alt=""/>
-            </q-avatar>
+
+          <div>
+            <q-btn flat round dense
+                   icon="clear"
+                   color="black"
+                   style="background-color: rgba(255,255,255,0.2)" @click="backtologin"/>
+          </div>
+
         </div>
       </q-toolbar-title>
     </q-toolbar >
@@ -80,7 +97,7 @@
       </div>
     </q-footer>
     <q-drawer v-model="sidebar"
-              side="right"
+              side="left"
               class="row flex column"
               :overlay="true"
               :width="190"
@@ -185,7 +202,7 @@ export default defineComponent({
       tokendialog: false,
       sidebar: false,
       showrouter: true,
-      avatar: this.userstore.getAvatar,
+      avatar: '',
       permission: this.userstore.getRole,
       username: this.userstore.getUsername,
       alertToken: this.userstore.getalertToken,
@@ -200,6 +217,9 @@ export default defineComponent({
     this.avatar = this.userstore.getAvatar
   },
   methods: {
+    historyback () {
+      window.history.back()
+    },
     async uploadicon () {
       this.loadingicon = true
       const formdata = new FormData()
@@ -220,6 +240,7 @@ export default defineComponent({
       this.sidebar = !this.sidebar
     },
     backtologin () {
+      this.userstore.clearinfo()
       this.$router.push('/login')
     },
     jumptocf (booll) {

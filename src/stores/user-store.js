@@ -101,6 +101,14 @@ export const userStore = defineStore('userStore', {
           })
           return Promise.reject()
         })
+    },
+    clearinfo () {
+      this.username = ''
+      this.avatar = ''
+      this.role = ''
+      this.userdata = ''
+      this.alertToken = ''
+      localStorage.clear()
     }
   }
 })
