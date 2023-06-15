@@ -9,7 +9,19 @@
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
             <div v-show="showtitle" class="col flex justify-start items-center q-ml-sm text-black">
               <q-breadcrumbs>
-                <q-breadcrumbs-el :label="username"/>
+                <q-breadcrumbs-el :label="username" class="text-bold" style="
+                background-color: #26004d;
+                background-image: radial-gradient(at 96% 79%, hsla(318, 86%, 55%, 1) 0, hsla(318, 86%, 55%, 0) 50%),
+                radial-gradient(at 61% 66%, hsla(167, 86%, 67%, 1) 0, hsla(167, 86%, 67%, 0) 50%),
+                radial-gradient(at 55% 51%, hsla(309, 85%, 55%, 1) 0, hsla(309, 85%, 55%, 0) 50%),
+                radial-gradient(at 74% 41%, hsla(218, 94%, 55%, 1) 0, hsla(218, 94%, 55%, 0) 50%),
+                radial-gradient(at 42% 27%, hsla(290, 88%, 57%, 1) 0, hsla(290, 88%, 57%, 0) 50%),
+                radial-gradient(at 22% 3%, hsla(346, 85%, 65%, 1) 0, hsla(346, 85%, 65%, 0) 50%),
+                radial-gradient(at 50% 4%, hsla(358, 92%, 50%, 1) 0, hsla(358, 92%, 50%, 0) 50%);
+                -webkit-background-clip: text;
+                  color: transparent;
+
+                "/>
                 <q-breadcrumbs-el :label="currentname"/>
               </q-breadcrumbs>
             </div>

@@ -6,8 +6,7 @@
         appear
         enter-active-class="animated fadeIn"
         leave-active-class="animated fadeOut">
-        <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show">
-
+        <div v-for="(item,index) in notelist" :key="index" class="flex justify-center" v-show="item.show && item.showbypublic">
           <NoteCard
             v-if="item.ife"
             :id="item.id"
@@ -122,8 +121,24 @@
                 {{data}}
               </div>
             </q-chip>
+
           </div>
+
         </div>
+        <div @click="switchpubliconly">
+          <q-chip :outline="onlypublic===true" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s"
+                  >
+            <transition
+              appear
+              enter-active-class="animated fadeIn"
+              leave-active-class="animated fadeOut"
+            >
+              <q-icon v-show="onlypublic===true" name="done" class="q-mr-sm "/>
+            </transition>
+            只显示public笔记
+          </q-chip>
+        </div>
+
         <q-card-actions>
           <q-btn color="white" flat text-color="black" @click="this.rightcardmodel='fab'">BACK</q-btn>
         </q-card-actions>
@@ -210,10 +225,26 @@ export default {
       search_content: '',
       dialogstatus: false,
       deletingindex: 0,
-      deltitle: 'null'
+      deltitle: 'null',
+      onlypublic: false
     }
   },
   methods: {
+    switchpubliconly () {
+      this.onlypublic = !this.onlypublic
+      this.filtpublic()
+    },
+    filtpublic () {
+      if (this.onlypublic) {
+        this.notelist.forEach(e => {
+          if (e.type != 'public') e.showbypublic = false
+        })
+      } else {
+        this.notelist.forEach((e) => {
+          e.showbypublic = true
+        })
+      }
+    },
     intersection (entry) {
       const ind = entry.target.index
       setTimeout(() => {
@@ -320,6 +351,7 @@ export default {
         res.forEach(e => {
           e.show = true
           e.ife = true
+          e.showbypublic = true
         })
         this.notelist = res.sort((a, b) =>
           Date.parse(b.editTime) - Date.parse(a.editTime)
@@ -378,7 +410,6 @@ export default {
             'translate(' + rotateX / 2 + 'px,' + rotateY + 'px) '
         })
       })
-
     }
   }
 }

@@ -29,9 +29,9 @@
       :offset="[18,18]"
       v-morph:newcard:group2:300.resize="newmorphing"
       v-show="newmorphing=='newcard'">
-      <q-card  class=" q-pa-sm bg-transparent"
+      <q-card  class=" q-pa-sm bg-transparent mdi-border-radius"
               style="
-              backdrop-filter: blur(100px)">
+              backdrop-filter: blur(100px);border-radius: 10px">
         <q-form
           @submit="addthing"
           @reset="onReset"
