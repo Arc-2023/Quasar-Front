@@ -3,12 +3,13 @@
           width: 170px;
           height: 310px;
           padding: 8px;
-          border-radius: 10px;
-          transition: all .3s ;
+          border-radius: 11px;
+          transition: all .5s;
           "
           @mouseenter="enterCard"
           @mouseleave="leaveCard"
-          class="q-pa-none q-ma-none mdi-border-radius">
+          class="q-pa-none q-ma-none mdi-border-radius"
+          >
     <q-item
       class=" bg-grey-2 q-pa-sm mdi-border-radius" style="border-radius: 10px" v-ripple clickable
     >
@@ -52,7 +53,10 @@
     </q-item>
     <q-item class="q-my-sm q-pa-none">
       <q-item-section class="mdi-border-radius"  style="border-radius: 10px">
-        <q-field filled label="name" dense stack-label >
+        <q-field rounded
+                 outlined
+                 dense
+                 label="name" stack-label >
           <template v-slot:control>
             <div class="self-center full-width no-outline">
               <q-item-section>
@@ -87,15 +91,21 @@
             {{itemm.message}}
           </q-item-label>
         </q-item-section>
-        <q-popup-edit title="Content"
-                      v-model="itemm.message"
-                      v-slot="scope">
+        <q-popup-edit
+          v-model="itemm.message"
+                      v-slot="scope"
+                      class="q-pa-sm">
           <q-input
+            class="mdi-border-radius"
+            style="border-radius: 10px"
             type="textarea"
+            rounded
+            outlined
+            dense
             autofocus counter
             @keyup.enter.stop
             v-model="scope.value">
-            <template v-slot:after>
+            <template v-slot:append>
               <q-avatar icon="save" v-ripple @click="saveitem(itemm,scope)"></q-avatar>
             </template>
           </q-input>
@@ -107,7 +117,9 @@
     <q-item class="q-pa-none q-ma-none">
       <q-item-section>
         <div>
-          <q-field standout dense filled >
+          <q-field rounded
+                   outlined
+                   dense >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">{{itemm.endTime}}</div>
             </template>

@@ -161,12 +161,12 @@
     leave-active-class="animated fadeOut"
   >
   <q-dialog
-    v-if="dialogstatus"
     v-model="this.dialogstatus"
-    :position="'bottom'"
     >
     <q-card
-      style="width: 400px">
+      v-show="dialogstatus"
+      class="mdi-border-radius"
+      style="border-radius: 20px;width: 400px">
       <q-card-section
         class="text-h3">
         删除{{this.deltitle}}?
