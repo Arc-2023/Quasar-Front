@@ -3,16 +3,14 @@
           width: 177px;
           height: 310px;
           padding: 8px;
-          border-radius: 11px;
-          transition: all .5s;
+          border-radius: 10px;
+          transition: all .3s;
           "
-          v-ripple.early
           @mouseenter="enterCard"
           @mouseleave="leaveCard"
           class="q-pa-none q-ma-none mdi-border-radius"
           >
     <q-item
-
       class=" bg-grey-2 q-pa-sm mdi-border-radius" style="border-radius: 10px" v-ripple clickable
     >
       <q-item-section class="justify-sm-start">
@@ -129,7 +127,9 @@
                    dense
                     style="align-content: center">
             <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{itemm.endTime}}</div>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{itemm.endTime}}
+              </div>
             </template>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -268,7 +268,6 @@ export default {
     }
   },
   mounted () {
-
   }
 }
 </script>

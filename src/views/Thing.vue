@@ -3,14 +3,13 @@
   <q-page class="q-py-sm q-px-none row wrap q-gutter-sm justify-center">
     <div class="flex justify-center">
       <transition class="q-ma-sm"
-                      v-for="(item,index) in thingdata"
+                      v-for="(item) in thingdata"
                       v-show="item.show && is_searched(item) && filt_bytag(item)"
-                      :key="index"
+                      :key="item.id"
                       appear
                       enter-active-class="animated fadeIn"
-                      leave-active-class="animated fadeOut"
-                      >
-          <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
+                      leave-active-class="animated fadeOut">
+          <ThingCard  :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
       </transition>
     </div>
 <!--  morphing使用到的组件  -->
@@ -46,7 +45,6 @@
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Please type something']"
           />
-
           <q-input
             rounded
             outlined
@@ -160,34 +158,64 @@
       <q-card
         v-morph:rightcard:group1:300.resize="rightcardmodel"
         class="q-pa-sm mdi-border-radius" style="border-radius: 10px;backdrop-filter: blur(10px);background: transparent;max-width: 200px">
-        <q-input
-          rounded
-          outlined
-          dense
-          v-model="search_content"
-          label="Type to Search"
-          class="self-stretch q-ma-sm"
-        >
-          <template v-slot:append>
-            <q-icon style="overflow: hidden;border-radius: 50%" name="close" v-ripple @click="this.search_content = ''"></q-icon>
-          </template>
-        </q-input>
-        <div style="align-self: start" class="q-ma-sm flex reverse wrap">
-          <div v-for="(data,index) in tags" :key="index" @click="this.activated_tag(index)"
+        <q-card-section class="q-pa-none q-ma-none">
+          <q-input
+            rounded
+            outlined
+            dense
+            v-model="search_content"
+            label="Type to Search"
+            class="self-stretch q-ma-sm"
           >
-            <q-chip :outline="isactivated(data)" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
-              <div>
-                <transition
-                  appear
-                  enter-active-class="animated fadeIn"
-                  leave-active-class="animated fadeOut">
-                  <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
-                </transition>
-                {{data}}
-              </div>
+            <template v-slot:append>
+              <q-icon style="overflow: hidden;border-radius: 50%" name="close" v-ripple @click="this.search_content = ''"></q-icon>
+            </template>
+          </q-input>
+          <div style="align-self: start" class="q-ma-sm flex reverse wrap">
+            <div v-for="(data,index) in tags" :key="index" @click="this.activated_tag(index)"
+            >
+              <q-chip :outline="isactivated(data)" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+                <div>
+                  <transition
+                    appear
+                    enter-active-class="animated fadeIn"
+                    leave-active-class="animated fadeOut">
+                    <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
+                  </transition>
+                  {{data}}
+                </div>
+              </q-chip>
+            </div>
+          </div>
+        </q-card-section>
+
+        <q-card-section class="q-ma-none">
+          <div @click="sortthings('endTime')">
+            <q-chip  :outline="checksort('endTime')" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+              <transition
+                appear
+                enter-active-class="animated fadeIn"
+                leave-active-class="animated fadeOut">
+                <q-icon v-show="checksort('endTime')" name="done" class="q-mr-sm "/>
+              </transition>
+              结束时间生序
             </q-chip>
           </div>
-        </div>
+          <div @click="sortthings('restTime')">
+            <q-chip  :outline="checksort('restTime')" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+              <transition
+                appear
+                enter-active-class="animated fadeIn"
+                leave-active-class="animated fadeOut">
+                <q-icon v-show="checksort('restTime')" name="done" class="q-mr-sm "/>
+              </transition>
+              剩余时间升序
+            </q-chip>
+          </div>
+
+<!--          <q-chip :outline="checksort('endTime')" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s"></q-chip>-->
+
+        </q-card-section>
         <q-card-actions>
           <q-btn color="white" flat text-color="black" @click="this.rightcardmodel='fab'">BACK</q-btn>
         </q-card-actions>
@@ -211,44 +239,44 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { date } from 'quasar'
 import { thingStore } from 'stores/thing-store'
 import ThingCard from 'components/ThingCard.vue'
-
 export default defineComponent({
   name: 'Thing',
   components: { ThingCard },
   setup () {
     const datee = date
     const thingstore = thingStore()
-    const thingdata = ref([])
+    // const thingdata = ref([])
     return {
       thingstore,
-      thingdata,
+      // thingdata,
       datee
     }
   },
   data: function () {
     return {
+      sortType: '',
       editingitem: '',
       editormorphing: 'content',
       newmorphing: 'newbtn',
       morphingstate: false,
       rightcardmodel: 'fab',
       search_content: '',
-      // thingdata: [
-      //   // {
-      //   //   id: 1,
-      //   //   name: 'name',
-      //   //   startTime: '2023-04-04 12:44',
-      //   //   endTime: '2023-04-06 12:44',
-      //   //   tag: 'math',
-      //   //   type: 5,
-      //   //   message: 'content',
-      //   //   status: 'Pause'
-      //   // }
-      // ],
+      thingdata: [
+        // {
+        //   id: 1,
+        //   name: 'name',
+        //   startTime: '2023-04-04 12:44',
+        //   endTime: '2023-04-06 12:44',
+        //   tag: 'math',
+        //   type: 5,
+        //   message: 'content',
+        //   status: 'Pause'
+        // }
+      ],
       tmpdata: {
         id: '',
         name: '',
@@ -266,21 +294,46 @@ export default defineComponent({
     }
   },
   computed: {
-
   },
   methods: {
+    getDateDiffHours (end) {
+      const datee = Date.now()
+      const fmtdate = date.formatDate(datee, 'YYYY-MM-DD HH:mm')
+      return date.getDateDiff(end, fmtdate, 'hours')
+    },
+    checksort (lable) {
+      return lable == this.sortType
+    },
+    sortthings (lable) {
+      console.log(this.thingdata[0].endTime)
+      if (lable == 'endTime') {
+        this.sortby_endtime()
+      } else {
+        this.sortby_resttime()
+      }
+      this.thingdata = this.thingdata.splice(0)
+      // const tmp = this.thingdata.splice(0)
+      // this.thingdata = []
+      // tmp.forEach(e => {
+      //   this.thingdata.push(e)
+      // })
+      // console.log(this.thingdata[0].endTime)
+      this.sortType = lable
+      // this.$forceUpdate()
+    },
     filt_bytag (item) {
       return this.active_tag.some(e => item.tag == e) || this.active_tag.length === 0
     },
     sortby_endtime () {
-      this.thingdata.sort((a, b) => {
-        const ta = Date.parse(a.endTime)
-        const tb = Date.parse(b.endTime)
-        return ta < tb
+      this.thingdata = Array.from(this.thingdata.splice(0)).sort((a, b) => {
+        console.log(Date.parse(a.endTime) < Date.parse(b.endTime))
+        return Date.parse(a.endTime) - Date.parse(b.endTime)
       })
     },
     sortby_resttime () {
-
+      this.thingdata.sort((a, b) => {
+        return this.getDateDiffHours(a.endTime) - this.getDateDiffHours(b.endTime)
+      })
     },
     is_searched (item) {
       if (this.search_content === '') return true
@@ -373,7 +426,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.refresh()
+    this.refresh(true)
   }
 })
 </script>
