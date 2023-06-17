@@ -35,18 +35,16 @@
           </q-chip>
           <q-chip   class="text-caption " :color="getprogresscolor(itemm)" icon="speed" text-color="white" dense :label="itemm.type">
           </q-chip>
-          <q-popup-proxy breakpoint="300"  cover transition-show="scale" transition-hide="scale">
-            <q-input  dense filled v-model="itemm.tag">
-              <template v-slot:append>
-                <q-avatar icon="save" v-ripple @click="updateitem(itemm)"></q-avatar>
-              </template>
-            </q-input>
-            <q-input dense filled v-model="itemm.type">
-              <template v-slot:append>
-                <q-avatar icon="save" v-ripple @click="updateitem(itemm)"></q-avatar>
-              </template>
-            </q-input>
+          <q-popup-proxy class="mdi-border-radius q-pa-sm" style="border-radius: 2rem" breakpoint="300"  cover transition-show="scale" transition-hide="scale">
+            <q-input  dense rounded borderless  v-model="itemm.tag">
 
+            </q-input>
+            <q-input dense rounded borderless  v-model="itemm.type">
+<!--              <template v-slot:append>-->
+<!--                <q-btn rounded flat ripple icon="save" v-ripple @click="updateitem(itemm)"></q-btn>-->
+<!--              </template>-->
+            </q-input>
+              <q-btn dense rounded flat ripple class="absolute-bottom-right q-mr-sm" icon="save" v-ripple @click="updateitem(itemm)"></q-btn>
           </q-popup-proxy>
         </div>
       </q-item-section>
@@ -68,10 +66,10 @@
           </template>
 
         </q-field>
-        <q-popup-proxy breakpoint="300">
-          <q-input dense v-model="itemm.name" outlined class="border-radius-inherit">
+        <q-popup-proxy breakpoint="300" class="mdi-border-radius" style="border-radius: 1rem">
+          <q-input dense rounded borderless v-model="itemm.name" outlined>
             <template v-slot:append>
-              <q-avatar icon="save" v-ripple @click="updateitem(itemm)"></q-avatar>
+              <q-btn dense flat ripple rounded icon="save" v-ripple @click="updateitem(itemm)"></q-btn>
             </template>
           </q-input>
         </q-popup-proxy>
@@ -92,24 +90,30 @@
           </q-item-label>
         </q-item-section>
         <q-popup-edit
+          color="primary"
           v-model="itemm.message"
-                      v-slot="scope"
-                      class="q-pa-sm">
+           v-slot="scope"
+           class="q-pa-none mdi-border-radius"
+        style="border-radius: 20px;padding: 3px">
           <q-input
             class="mdi-border-radius"
             style="border-radius: 10px"
             type="textarea"
             rounded
-            outlined
+            borderless
             dense
             autofocus counter
             @keyup.enter.stop
             v-model="scope.value">
-            <template v-slot:append>
-              <q-avatar icon="save" v-ripple @click="saveitem(itemm,scope)"></q-avatar>
-            </template>
+<!--            <template v-slot:append>-->
+              <q-btn dense rounded flat
+                     color="purple"
+                     class="absolute-bottom-right text-red-1"
+                     icon="save"
+                     v-ripple
+                     @click="saveitem(itemm,scope)"></q-btn>
+<!--            </template>-->
           </q-input>
-
         </q-popup-edit>
       </q-item-section>
     </q-item>
@@ -119,13 +123,14 @@
         <div>
           <q-field rounded
                    outlined
-                   dense >
+                   dense
+                    style="align-content: center">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">{{itemm.endTime}}</div>
             </template>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 2rem">
                   <q-date v-model="itemm.endTime" mask="YYYY-MM-DD HH:mm">
                   </q-date>
                 </q-popup-proxy>
@@ -133,8 +138,11 @@
             </template>
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="itemm.endTime" mask="YYYY-MM-DD HH:mm" now-btn>
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 2rem">
+                  <q-time
+                    v-model="itemm.endTime"
+                    mask="YYYY-MM-DD HH:mm"
+                    now-btn class="mdi-border-radius">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Save" color="primary" flat @click="updateitem(itemm)"/>
                     </div>
@@ -217,11 +225,9 @@ export default {
       else if (this.getProgressByEndAndStart(this.itemm) > 0.6) return 'orange'
       else return 'green'
     },
-    updateitem () {
-      this.thingstore.updatething(this.itemm)
-        .catch(e => {
-          this.refresh()
-        })
+    async updateitem () {
+      await this.thingstore.updatething(this.itemm)
+      this.refresh()
     },
     saveitem (item, scope) {
       this.itemm.message = scope.value

@@ -16,9 +16,8 @@
                    color="black"
                    style="background-color: rgba(255,255,255,0.2)" @click="historyback"/>
           </div>
-          <q-avatar square v-ripple:black text-black @click="this.switchsidebar"
-                    class="cursor-pointer mdi-border-radius" style="border-radius: 5px">
-            <q-img spinner-size="10px" spinner-color="primary" fit="scale-down" :src="getavatar" alt="default"/>
+          <q-avatar square v-ripple:black text-black @click="this.switchsidebar">
+            <q-img class="cursor-pointer mdi-border-radius" style="border-radius: 5px" spinner-size="10px" spinner-color="primary" fit="scale-down" :src="getavatar" alt="default"/>
           </q-avatar>
           <transition name="fade" appear enter-active-class="animated fadeIn"  mode="in-out">
 
@@ -157,24 +156,18 @@
         </q-card>
     </q-dialog>
     <q-dialog v-model="uploaddialog">
-      <q-card class="q-pa-none mdi-border-radius" style="border-radius: 20px">
-<!--          <q-uploader-->
-<!--            style="max-width: 300px"-->
-<!--            url="https://spring.220608.xyz/uploadImage"-->
-<!--            label="Restricted to images"-->
-<!--            multiple-->
-<!--            accept=".jpg, image/*"-->
-<!--            @rejected="onimagerejected"-->
-<!--            @added-->
-<!--          ></q-uploader>-->
-        <q-file :loading="loadingicon" standout="bg-primary text-white" v-model="imgFile" label="上传壁纸">
-          <template #append>
-            <q-avatar  v-ripple class="cursor-pointer" icon="upload" @click="uploadicon"></q-avatar>
-          </template>
-        </q-file>
-        <q-card-actions align="right" class="text-primary">
-          <q-btn ripple flat label="关闭" v-close-popup></q-btn>
-        </q-card-actions>
+      <q-card class="q-pa-none mdi-border-radius " :bordered="false" style="border-radius: 20px">
+          <q-file
+            dense
+            outlined
+            rounded
+            accept="image/*,.jpg,.png"
+            v-model="imgFile"
+            label="上传icon">
+            <template #append>
+              <q-btn flat rounded ripple :loading="loadingicon" icon="upload" @click="uploadicon"></q-btn>
+            </template>
+          </q-file>
       </q-card>
     </q-dialog>
   </q-layout>
@@ -184,7 +177,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { userStore } from 'stores/user-store'
-import { useQuasar } from 'quasar'
+import {Notify, useQuasar} from 'quasar'
 import { noteStore } from 'stores/note-store'
 export default defineComponent({
   name: 'Home',
@@ -220,7 +213,12 @@ export default defineComponent({
 
   },
   methods: {
-
+    onrejected () {
+      Notify.create({
+        message: '无法上传,过大或不是图片',
+        type: 'error'
+      })
+    },
     historyback () {
       window.history.back()
     },
@@ -231,8 +229,8 @@ export default defineComponent({
       await this.notestore.uploadimage(formdata).then(res => {
         console.log(res)
         this.avatar = 'https://spring.220608.xyz/getImage/' + res
+        this.seticonurl()
       })
-      this.seticonurl()
       this.loadingicon = false
     },
     setalertToken () {

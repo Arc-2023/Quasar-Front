@@ -12,8 +12,8 @@ export const thingStore = defineStore(
     },
     actions: {
       async refreshThings () {
-        const username = userStore().getUsername
-        return refreshThings({ username })
+        // const username = userStore().getUsername
+        return refreshThings()
           .then(r => {
             return r.data.data
           })

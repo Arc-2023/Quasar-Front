@@ -1,9 +1,8 @@
 import request from 'boot/request'
-export function refreshThings (query) {
+export function refreshThings () {
   return request({
     url: '/api/refreshThings',
-    method: 'get',
-    params: query
+    method: 'get'
   })
 }
 export function addThing (query) {

@@ -6,16 +6,16 @@
                       v-for="(item,index) in thingdata"
                       v-show="item.show && is_searched(item) && filt_bytag(item)"
                       :key="index"
-                        appear
-                        enter-active-class="animated fadeIn"
-                        leave-active-class="animated fadeOut"
+                      appear
+                      enter-active-class="animated fadeIn"
+                      leave-active-class="animated fadeOut"
                       >
           <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
       </transition>
 
     </div>
 <!--  morphing使用到的组件  -->
-    <q-page-sticky position="bottom-left" :offset="[18,18]"  >
+    <q-page-sticky position="bottom-left" :offset="[18,18]">
         <q-btn
           v-morph:newbtn:group2:300.resize="newmorphing"
           fab
@@ -74,7 +74,7 @@
             v-model="tmpdata.startTime">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 10px">
                   <q-date v-model="tmpdata.startTime" mask="YYYY-MM-DD HH:mm" today-btn>
                   </q-date>
                 </q-popup-proxy>
@@ -82,7 +82,7 @@
             </template>
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 10px">
                   <q-time v-model="tmpdata.startTime" mask="YYYY-MM-DD HH:mm" now-btn>
                   </q-time>
                 </q-popup-proxy>
@@ -101,7 +101,7 @@
             v-model="tmpdata.endTime">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 10px">
                   <q-date v-model="tmpdata.endTime" mask="YYYY-MM-DD HH:mm" today-btn>
                   </q-date>
                 </q-popup-proxy>
@@ -109,7 +109,7 @@
             </template>
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="mdi-border-radius" style="border-radius: 10px">
                   <q-time v-model="tmpdata.endTime" mask="YYYY-MM-DD HH:mm" now-btn>
                   </q-time>
                 </q-popup-proxy>
@@ -181,10 +181,8 @@
                 <transition
                   appear
                   enter-active-class="animated fadeIn"
-                  leave-active-class="animated fadeOut"
-                >
+                  leave-active-class="animated fadeOut">
                   <q-icon v-show="isactivated(data)" name="done" class="q-mr-sm "/>
-
                 </transition>
                 {{data}}
               </div>
@@ -223,11 +221,13 @@ export default defineComponent({
   name: 'Thing',
   components: { ThingCard },
   setup () {
+    const datee = date
     const thingstore = thingStore()
     const thingdata = ref([])
     return {
       thingstore,
-      thingdata
+      thingdata,
+      datee
     }
   },
   data: function () {
@@ -251,13 +251,13 @@ export default defineComponent({
       //   // }
       // ],
       tmpdata: {
-        id: 1,
-        name: 'name',
-        startTime: '2023-04-04 12:44',
-        endTime: '2023-04-06 12:44',
-        tag: 'math',
-        type: 5,
-        message: 'content'
+        id: '',
+        name: '',
+        startTime: this.datee.formatDate(Date.now(), 'YYYY-MM-DD HH:mm'),
+        endTime: '',
+        tag: 'default',
+        type: 12,
+        message: ''
       },
       index: 0,
       deleteM: false,
