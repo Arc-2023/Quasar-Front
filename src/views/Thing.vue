@@ -12,7 +12,6 @@
                       >
           <ThingCard :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
       </transition>
-
     </div>
 <!--  morphing使用到的组件  -->
     <q-page-sticky position="bottom-left" :offset="[18,18]">

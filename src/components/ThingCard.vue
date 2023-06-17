@@ -6,6 +6,7 @@
           border-radius: 11px;
           transition: all .5s;
           "
+          v-ripple.early
           @mouseenter="enterCard"
           @mouseleave="leaveCard"
           class="q-pa-none q-ma-none mdi-border-radius"

@@ -1,5 +1,8 @@
 <template>
-    <q-card class=" mycard q-ma-md cursor-pointer " style="
+    <q-card
+    class=" mycard q-ma-md cursor-pointer"
+    v-ripple.early
+    style="
     display: flex;
     height: 40%;
     width: 60%;
