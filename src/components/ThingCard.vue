@@ -1,6 +1,6 @@
 <template>
   <q-card style="
-          width: 170px;
+          width: 177px;
           height: 310px;
           padding: 8px;
           border-radius: 11px;
@@ -11,10 +11,11 @@
           class="q-pa-none q-ma-none mdi-border-radius"
           >
     <q-item
+
       class=" bg-grey-2 q-pa-sm mdi-border-radius" style="border-radius: 10px" v-ripple clickable
     >
       <q-item-section class="justify-sm-start">
-        <div>
+        <div style="pointer-events: none">
           <!--            <q-linear-progress size="5px" :value="progresss" rounded :color="progresscolor"></q-linear-progress>-->
           <q-circular-progress
             disable
@@ -22,9 +23,10 @@
             show-value
             size="80px"
             :color="getprogresscolor(itemm)"
-            class="text-weight-bolder"
+            class=" text-bold"
             :thickness="0.5"
             track-color="grey"
+
           ></q-circular-progress>
         </div>
       </q-item-section>
@@ -213,14 +215,22 @@ export default {
   methods: {
     enterCard (evt) {
       evt.target.style.borderRadius = '20px'
+      const rect = evt.target.getBoundingClientRect()
+      const rotateX = (evt.x - (rect.x + rect.width / 2)) / 30
+      const rotateY = (evt.y - (rect.y + rect.height / 2)) / 30
+      window.requestAnimationFrame(function () {
+        evt.target.style.transform =
+          'translate(' + rotateX / 2 + 'px,' + rotateY + 'px) '
+      })
     },
     leaveCard (evt) {
       evt.target.style.borderRadius = '10px'
+      evt.target.style.transform = 'rotateX(0) rotateY(0) translate(0,0)'
     },
-    spliceTimeString: function () {
+    spliceTimeString () {
       return (this.getProgressByEndAndStart(this.itemm) * 100).toString().slice(0, 4)
     },
-    getprogresscolor: function () {
+    getprogresscolor () {
       if (this.getProgressByEndAndStart(this.itemm) > 0.8) return 'red'
       else if (this.getProgressByEndAndStart(this.itemm) > 0.6) return 'orange'
       else return 'green'

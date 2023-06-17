@@ -1,6 +1,6 @@
 <template>
 <q-page-container>
-  <q-page class="q-pa-sm row wrap q-gutter-sm justify-center">
+  <q-page class="q-py-sm q-px-none row wrap q-gutter-sm justify-center">
     <div class="flex justify-center">
       <transition class="q-ma-sm"
                       v-for="(item,index) in thingdata"

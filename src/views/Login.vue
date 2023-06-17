@@ -123,7 +123,9 @@ export default defineComponent({
     onLogin () {
       this.userstore.login({ username: this.username, password: this.password, remember: this.rememberMe })
         .then((res) => {
-          this.$q.notify('登录成功')
+          this.$q.notify({
+            message:'登录成功'
+          })
           console.log(res)
           this.$router.push('/')
         })
