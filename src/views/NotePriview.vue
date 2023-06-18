@@ -2,7 +2,7 @@
   <q-page-container>
     <q-page class="q-pa-md">
       <div style="display: flex;justify-items: center" class="">
-          <MdPreview :editorId="id" :modelValue="text" style="overflow: hidden;border-radius: 20px"/>
+          <MdPreview :editorId="id" :modelValue="text" style="overflow: hidden;border-radius: 20px" :theme="dark"/>
       </div>
 
 <!--      <q-drawer-->
@@ -12,6 +12,9 @@
 <!--        style="display: flex;flex-direction: column;align-items: center">-->
 
 <!--      </q-drawer>-->
+      <q-page-sticky position="bottom-left" :offset="[18, 18]" class="z-top">
+        <DarkSwitcher @call-switch="this.switchdark"></DarkSwitcher>
+      </q-page-sticky>
       <q-page-sticky
         position="bottom-right">
         <q-btn :loading="loading" flat fab class="q-ma-sm bg-blue" @click="this.drawstatus = !this.drawstatus">
@@ -31,13 +34,14 @@ import { MdCatalog, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import { noteStore } from 'stores/note-store'
 import { useRouter } from 'vue-router'
+import DarkSwitcher from "components/DarkSwitcher.vue";
 const id = 'preview-only'
 const text = ref('')
 const scrollElement = document.documentElement
 
 export default {
   name: 'NotePriview',
-  components: { MdCatalog, MdPreview },
+  components: {DarkSwitcher, MdCatalog, MdPreview },
   setup () {
     const notestore = noteStore()
     const router = useRouter()
@@ -47,12 +51,17 @@ export default {
   },
   data () {
     return {
+      dark: 'light',
       loading: true,
       note: '',
       drawstatus: false
     }
   },
   methods: {
+    switchdark () {
+      this.dark = this.dark == 'dark' ? 'light' : 'dark'
+      console.log(this.dark)
+    },
     getNote () {
       console.log('id', this.$route.params.id)
       this.notestore.getnote(this.$route.params.id)
@@ -70,5 +79,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

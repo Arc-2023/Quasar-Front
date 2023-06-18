@@ -7,8 +7,12 @@
           @onSave="savacontent"
           v-model="this.note.content"
           style="height: 88vh"
+          :theme="dark"
           >
         </MdEditor>
+      <q-page-sticky position="bottom-left" :offset="[18, 18]" class="z-top">
+        <DarkSwitcher @call-switch="this.switchdark"></DarkSwitcher>
+      </q-page-sticky>
       <q-page-sticky position="bottom-right" :offset="[18, 18]" >
         <q-btn fab icon="list" color="primary" @click="morph1='card'" v-morph:fab:group:300.resize="morph1"  :loading="loading"></q-btn>
       </q-page-sticky>
@@ -52,9 +56,10 @@ import 'md-editor-v3/lib/style.css'
 import { ref, defineComponent } from 'vue'
 import { noteStore } from 'stores/note-store'
 import { userStore } from 'stores/user-store'
+import DarkSwitcher from "components/DarkSwitcher.vue";
 export default defineComponent({
   name: 'Note',
-  components: { MdEditor },
+  components: {DarkSwitcher, MdEditor },
   setup () {
     const toggle = ref(false)
     const GroupModel = ref('menuu')
@@ -74,6 +79,10 @@ export default defineComponent({
     }
   },
   methods: {
+    switchdark () {
+      this.dark = this.dark == 'dark' ? 'light' : 'dark'
+      console.log(this.dark)
+    },
     switchloading (booll) {
       this.loading = booll
     },
@@ -118,6 +127,7 @@ export default defineComponent({
   },
   data () {
     return {
+      dark: 'light',
       morph1: 'fab',
       changelising: 0,
       notereadingindex: 0,

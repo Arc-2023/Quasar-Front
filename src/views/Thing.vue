@@ -190,15 +190,15 @@
         </q-card-section>
 
         <q-card-section class="q-ma-none">
-          <div @click="sortthings('endTime')">
-            <q-chip  :outline="checksort('endTime')" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
+          <div @click="sortthings('interval')">
+            <q-chip  :outline="checksort('interval')" dense class="q-mr-sm text-body2 cursor-pointer" style="transition: all .5s">
               <transition
                 appear
                 enter-active-class="animated fadeIn"
                 leave-active-class="animated fadeOut">
-                <q-icon v-show="checksort('endTime')" name="done" class="q-mr-sm "/>
+                <q-icon v-show="checksort('interval')" name="done" class="q-mr-sm"/>
               </transition>
-              结束时间生序
+              提醒间隔升序
             </q-chip>
           </div>
           <div @click="sortthings('restTime')">
@@ -306,10 +306,10 @@ export default defineComponent({
     },
     sortthings (lable) {
       console.log(this.thingdata[0].endTime)
-      if (lable == 'endTime') {
+      if (lable == 'restTime') {
         this.sortby_endtime()
       } else {
-        this.sortby_resttime()
+        this.sortby_interval()
       }
       this.thingdata = this.thingdata.splice(0)
       // const tmp = this.thingdata.splice(0)
@@ -330,9 +330,9 @@ export default defineComponent({
         return Date.parse(a.endTime) - Date.parse(b.endTime)
       })
     },
-    sortby_resttime () {
+    sortby_interval () {
       this.thingdata.sort((a, b) => {
-        return this.getDateDiffHours(a.endTime) - this.getDateDiffHours(b.endTime)
+        return b.type - a.type
       })
     },
     is_searched (item) {
