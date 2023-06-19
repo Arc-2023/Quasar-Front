@@ -2,15 +2,21 @@
 <q-page-container>
   <q-page class="q-py-sm q-px-none row wrap q-gutter-sm justify-center">
     <div class="flex justify-center">
-      <transition class="q-ma-sm"
-                      v-for="(item) in thingdata"
-                      v-show="item.show && is_searched(item) && filt_bytag(item)"
-                      :key="item.id"
+      <transition-group
                       appear
                       enter-active-class="animated fadeIn"
                       leave-active-class="animated fadeOut">
-          <ThingCard  :item="item" :index="index" @call-deletefun="deletefun" @call-stopfun="stopfun" @call-restartfun="restartfun"/>
-      </transition>
+          <ThingCard
+            class="q-ma-sm"
+            v-for="(item) in thingdata"
+            v-show="item.show && is_searched(item) && filt_bytag(item)"
+            :item="item"
+            :index="index"
+            :key="item.id"
+            @call-deletefun="deletefun"
+            @call-stopfun="stopfun"
+            @call-restartfun="restartfun"/>
+      </transition-group>
     </div>
 <!--  morphing使用到的组件  -->
     <q-page-sticky position="bottom-left" :offset="[18,18]">
@@ -224,8 +230,8 @@
   </q-page>
   <q-dialog v-model="deleteM" >
     <q-card class="absolute-center z-top">
-      <q-card-section class="bg-amber ">
-        <div class="text-h6">你确定要删除吗？</div>
+      <q-card-section class="bg-amber">
+        <div class="text-h6">你确定要删除{{getnamebyid(deletingid)}}吗？</div>
         <div class="text-subtitle2 text-red">这是不可恢复的</div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
@@ -288,7 +294,7 @@ export default defineComponent({
       },
       index: 0,
       deleteM: false,
-      deletingindex: 0,
+      deletingid: '',
       tags: [],
       active_tag: []
     }
@@ -366,15 +372,21 @@ export default defineComponent({
     //       this.search_content != '') { e.active = false }
     //   })
     // },
-    deletefun (index) {
+    getnamebyid (id) {
+      return this.thingdata.find(e => e.id == id).name
+    },
+    deletefun (id) {
+      console.log(id)
       this.toggledeldialog()
-      this.deletingindex = index
+      this.deletingid = id
     },
     deleteitem () {
-      this.thingstore.delthing(this.thingdata[this.deletingindex].id)
+      this.thingstore.delthing(this.deletingid)
         .then(r => {
-          this.thingdata.at(this.deletingindex).show = false
-          console.log('@', this.deletingindex)
+          this.thingdata = this.thingdata.map(e => {
+            if (e.id == this.deletingid) e.show = false
+            return e
+          })
           this.deleteM = false
         })
     },

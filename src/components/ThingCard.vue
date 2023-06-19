@@ -164,13 +164,13 @@
       transition-hide="flip-left"
     >
       <q-list dense style="min-width: 100px">
-        <q-item clickable @click="this.$emit('call-deletefun',this.$props.index)">
+        <q-item clickable @click="this.$emit('call-deletefun',this.$props.item.id)">
           <q-item-section>Delete</q-item-section>
         </q-item>
-        <q-item clickable @click="this.$emit('call-stopfun',itemm,this.$props.index)">
+        <q-item clickable @click="this.$emit('call-stopfun',itemm,this.$props.item.id)">
           <q-item-section>Stop</q-item-section>
         </q-item>
-        <q-item clickable @click="this.$emit('call-restartfun',itemm,this.$props.index)">
+        <q-item clickable @click="this.$emit('call-restartfun',itemm,this.$props.item.id)">
           <q-item-section>Restart</q-item-section>
         </q-item>
       </q-list>

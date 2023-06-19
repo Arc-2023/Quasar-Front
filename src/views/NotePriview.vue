@@ -4,14 +4,6 @@
       <div style="display: flex;justify-items: center" class="">
           <MdPreview :editorId="id" :modelValue="text" style="overflow: hidden;border-radius: 20px" :theme="dark"/>
       </div>
-
-<!--      <q-drawer-->
-<!--         v-model="this.drawstatus"-->
-<!--        side="right"-->
-<!--        class="q-pa-sm align-left"-->
-<!--        style="display: flex;flex-direction: column;align-items: center">-->
-
-<!--      </q-drawer>-->
       <q-page-sticky position="bottom-left" :offset="[18, 18]" class="z-top">
         <DarkSwitcher @call-switch="this.switchdark"></DarkSwitcher>
       </q-page-sticky>
