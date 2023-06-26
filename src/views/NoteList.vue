@@ -192,7 +192,7 @@ import { noteStore } from 'stores/note-store'
 import { Notify, date } from 'quasar'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { userStore } from 'stores/user-store'
+import { developStore } from 'stores/develop-store'
 
 export default {
   name: 'NoteList',
@@ -203,12 +203,14 @@ export default {
     const tagSetActivtivated = ref([])
     const router = useRouter()
     const notelist = ref([])
+    const devestore = developStore()
     return {
       notestore,
       tagSet,
       router,
       tagSetActivtivated,
-      notelist
+      notelist,
+      devestore
     }
   },
   data () {
@@ -315,31 +317,6 @@ export default {
       } else {
         this.notelist.forEach(e => { e.show = true })
       }
-
-      // const cards = document.getElementsByClassName('mycard')
-      // for (let i = 0; i < cards.length; ++i) {
-      //   console.log(cards[i])
-      //   if (!this.tagSetActivtivated.some(item => {
-      //     return item === cards[i].tag
-      //   })) {
-      //     cards[i].display = 'none'
-      //   }
-      // }
-
-      // this.notelist = this.notenotshowing !== [] ? this.notelist?.concat(this.notenotshowing) : this.notelist
-      // this.notenotshowing = []
-      //
-      // if (this.tagSetActivtivated.length > 0) {
-      //   for (let i = 0; i < this.notelist.length; ++i) {
-      //     if (!this.tagSetActivtivated.some((item, index) => {
-      //       return item === this.notelist[i].tag
-      //     })) {
-      //       this.notenotshowing = []
-      //       this.notenotshowing.push(this.notelist[i].tag)
-      //       this.notelist.splice(i, 1)
-      //     }
-      //   }
-      // }
     }
   },
   computed: {
@@ -372,6 +349,8 @@ export default {
           this.tagSet = Array.from(new Set(a))
         }, 0)
       })
+    // this.$emit('changeheaderstatus', 'thing')
+    this.devestore.changeheaderstatus('note')
     function addMouseOverListener (element) {
       element.addEventListener('mousemove', (event) => {
         const rect = element.getBoundingClientRect()

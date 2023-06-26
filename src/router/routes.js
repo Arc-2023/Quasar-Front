@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/login',
@@ -37,6 +36,10 @@ const routes = [
       {
         path: '/alist',
         component: () => import('../views/Alist.vue')
+      },
+      {
+        path: '/info',
+        component: () => import('../views/Info.vue')
       },
       {
         path: '/:pathMatch(.*)*',

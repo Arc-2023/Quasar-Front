@@ -249,6 +249,8 @@ import { defineComponent } from 'vue'
 import { date } from 'quasar'
 import { thingStore } from 'stores/thing-store'
 import ThingCard from 'components/ThingCard.vue'
+import { developStore } from 'stores/develop-store'
+
 export default defineComponent({
   name: 'Thing',
   components: { ThingCard },
@@ -256,10 +258,12 @@ export default defineComponent({
     const datee = date
     const thingstore = thingStore()
     // const thingdata = ref([])
+    const devestore = developStore()
     return {
       thingstore,
       // thingdata,
-      datee
+      datee,
+      devestore
     }
   },
   data: function () {
@@ -439,6 +443,7 @@ export default defineComponent({
   },
   mounted () {
     this.refresh(true)
+    this.devestore.changeheaderstatus('thing')
   }
 })
 </script>

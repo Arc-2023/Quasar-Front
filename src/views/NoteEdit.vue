@@ -56,10 +56,10 @@ import 'md-editor-v3/lib/style.css'
 import { ref, defineComponent } from 'vue'
 import { noteStore } from 'stores/note-store'
 import { userStore } from 'stores/user-store'
-import DarkSwitcher from "components/DarkSwitcher.vue";
+import DarkSwitcher from 'components/DarkSwitcher.vue'
 export default defineComponent({
   name: 'Note',
-  components: {DarkSwitcher, MdEditor },
+  components: { DarkSwitcher, MdEditor },
   setup () {
     const toggle = ref(false)
     const GroupModel = ref('menuu')

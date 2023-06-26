@@ -26,14 +26,14 @@ import { MdCatalog, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import { noteStore } from 'stores/note-store'
 import { useRouter } from 'vue-router'
-import DarkSwitcher from "components/DarkSwitcher.vue";
+import DarkSwitcher from 'components/DarkSwitcher.vue'
 const id = 'preview-only'
 const text = ref('')
 const scrollElement = document.documentElement
 
 export default {
   name: 'NotePriview',
-  components: {DarkSwitcher, MdCatalog, MdPreview },
+  components: { DarkSwitcher, MdCatalog, MdPreview },
   setup () {
     const notestore = noteStore()
     const router = useRouter()

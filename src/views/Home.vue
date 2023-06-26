@@ -46,6 +46,7 @@
             <q-route-tab icon="article" to="/"  @click="changename('Note')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
             <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+            <q-route-tab icon="info" to="/info"  @click="changename('Info')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
           </q-tabs>
 
 <!--          <label class="switch" @click="toggledark">-->
@@ -74,11 +75,19 @@
         <q-route-tab icon="article" to="/"  @click="changename('Home')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="fact_check" to="/thing"  @click="changename('Thing')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
         <q-route-tab icon="folder" to="/alist"  @click="changename('Alist')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
+        <q-route-tab icon="info" to="/info"  @click="changename('Info')" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px"></q-route-tab>
       </q-tabs>
+
+<!--      <q-tabs v-if="this.devestore.getheaderstatus=='info'" dense class="text-black bg-transparent" v-model="this.devestore.$state.tabstatus">-->
+<!--        <q-tab name="undo" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px">Developing</q-tab>-->
+<!--        <q-tab name="done" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px">Done</q-tab>-->
+<!--        <q-tab name="accepted" exact class="mdi-border-radius  overflow-hidden" style="border-radius: 10px">Accepted</q-tab>-->
+<!--      </q-tabs>-->
+
     </q-header>
     <router-view class="myrouter"  v-slot="{ Component }">
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"  mode="out-in">
-        <component :is="Component" @changename="changename"/>
+        <component :is="Component" @changename="changename" @changeheaderstatus="this.changeheaderstatus"/>
       </transition>
     </router-view>
     <q-footer class="z-top mdi-border-radius mdi-border-radius overflow-hidden" reveal
@@ -177,18 +186,22 @@
 <script>
 import { defineComponent } from 'vue'
 import { userStore } from 'stores/user-store'
-import {Notify, useQuasar} from 'quasar'
+import { Notify, useQuasar } from 'quasar'
 import { noteStore } from 'stores/note-store'
+import { developStore } from 'stores/develop-store'
+
 export default defineComponent({
   name: 'Home',
   setup () {
     const userstore = userStore()
     const $q = useQuasar()
     const notestore = noteStore()
+    const devestore = developStore()
     return {
       userstore,
       $q,
-      notestore
+      notestore,
+      devestore
     }
   },
   data () {
@@ -213,6 +226,10 @@ export default defineComponent({
 
   },
   methods: {
+    changeheaderstatus (name) {
+      console.log('header change')
+      this.headerstatus = name
+    },
     onrejected () {
       Notify.create({
         message: '无法上传,过大或不是图片',
@@ -255,6 +272,9 @@ export default defineComponent({
       setTimeout(() => {
         this.showtitle = true
       })
+    },
+    changeinfostatus (name) {
+      this.devestore.changetabstatus(name)
     }
 
   },
